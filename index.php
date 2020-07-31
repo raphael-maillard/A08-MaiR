@@ -14,6 +14,21 @@
         <section>
             <?php
 
+
+if(!empty($_GET)){
+
+
+}
+
+else{
+
+    echo '<h1 class="display-1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
+}
+
+
+
+
+
             /**
              * Conditions with:
              *      - if/else
