@@ -1,7 +1,7 @@
 <?php include_once './settings/db.php'; ?>
 
 <!DOCTYPE html>
-<html lang="en">c 
+<html lang="en">
 
     <?php include_once './templates/head.html'; ?>
 
