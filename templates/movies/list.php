@@ -19,7 +19,7 @@ $sql = 'SELECT movies.id, movies.name, movies.id_image,images.image, images.alt
 
 $count= $count->fetchAll(PDO::FETCH_OBJ);
 //Check line number
-print_r ("Nomre de ligne ".$count[0]->row."<br>");
+// print_r ("Nomre de ligne ".$count[0]->row."<br>");
 //Init $row and $image
 $row = $count[0]->row;
 $image=0;
@@ -45,7 +45,7 @@ echo '<div class="container mt-5 mb-5">';
                     echo ' <div class="col-lg-4 col-md-12 mb-4">';
                         echo ' <div class="p-4 bg-white">';
                             echo ' <div class="d-flex flex-column">';
-                                echo '<a class="thumbnail" href="../A08-MaiR/uploads/'.$item['image'].'" data-size="1600x1067">';
+                                echo '<a class="thumbnail" href="index.php?id='.$item['id'].'">';
                                     echo ' <div><img class="img-responsive img-thumbnail" src="../A08-MaiR/uploads/'.$item['image'].'" alt = "'.$item['alt'].'" ></div></a>';
                                 $image++;
                                 echo ' <div class="d-flex flex-column">';

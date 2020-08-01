@@ -15,12 +15,17 @@
             <?php
 
 
-if(empty($_GET)){
+if(empty($_GET))
+{
     
 }
 elseif (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
 {
     include './templates/movies/list.php';
+}
+elseif (!empty($_GET['id']))
+{
+                include './templates/movies/show.php';
 }
 
 else{
