@@ -15,11 +15,7 @@
             <?php
 
 
-if(empty($_GET))
-{
-    
-}
-elseif (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
+if (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
 {
     include './templates/movies/list.php';
 }
