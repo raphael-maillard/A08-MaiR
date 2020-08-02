@@ -31,7 +31,7 @@ echo '<div class="container mt-5 mb-5">';
     }
 
     echo '<div class="row col-sm-12 d-block text-center title">';
-        echo ' <h1> La gallerie de la boite à fil</h1><br>';
+        echo ' <h1> Liste des films</h1><br>';
         echo '</div>';
 
     // init traiment for items

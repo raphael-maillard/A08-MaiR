@@ -15,6 +15,8 @@ $statement->execute(array($id));
 $item = $statement->fetch();
 $connect = null;
 
+$item['release_date']= date("d-m-Y", strtotime($item['release_date']));
+
 function checkInput($data)
 {
     $data = trim($data);
