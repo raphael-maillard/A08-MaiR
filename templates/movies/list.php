@@ -13,15 +13,18 @@
 $count = $connect->prepare(" SELECT COUNT(*) AS row FROM movies ");
 $count->execute();
 
-$sql = 'SELECT movies.id, movies.name, movies.id_image,images.image, images.alt 
-                              FROM images 
-                              JOIN movies ON images.id = movies.id_image ';
+
+$sql = 'SELECT movies.id, movies.name, movies.id_image, images.image, images.alt , phases.phase
+        FROM images
+        JOIN movies ON images.id = movies.id_image
+        JOIN phases ON phases.id = movies.id_phase';
 
 $count= $count->fetchAll(PDO::FETCH_OBJ);
 //Check line number
 // print_r ("Nomre de ligne ".$count[0]->row."<br>");
 //Init $row and $image
 $row = $count[0]->row;
+echo $row;
 $image=0;
 
 if($image==0)
