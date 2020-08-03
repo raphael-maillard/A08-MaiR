@@ -21,10 +21,15 @@ if (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
 }
 elseif (!empty($_GET['id']))
 {
-                include './templates/movies/show.php';
-}elseif (isset($_POST['search']))
+    include './templates/movies/show.php';
+}
+elseif (isset($_POST['search']))
 {
-                include './templates/movies/search.php';
+    include './templates/movies/search.php';
+}
+elseif(isset($_GET['add']))
+{
+    include './templates/movies/_form_new.php';
 }
 
 else{

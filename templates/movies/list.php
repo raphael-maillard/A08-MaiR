@@ -49,7 +49,7 @@ echo '<div class="container mt-5 mb-5">';
                         echo ' <div class="p-4 bg-white">';
                             echo ' <div class="d-flex flex-column">';
                                 echo '<a class="thumbnail" href="index.php?id='.$item['id'].'">';
-                                    echo ' <div><img class="img-responsive img-thumbnail" src="../A08-MaiR/uploads/'.$item['image'].'" alt = "'.$item['alt'].'" ></div></a>';
+                                    echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/'.$item['image'].'" alt = "'.$item['alt'].'" ></div></a>';
                                 $image++;
                                 echo ' <div class="d-flex flex-column">';
                                     echo ' <div class="d-flex flex-row justify-content-between align-items-center">';
