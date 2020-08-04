@@ -1,21 +1,76 @@
 <!-- form new -->
 
 
-<?php 
+<?php
 
-if(isset($_POST))
+$nameError = $directorError = $durationError = $dateError = $name = $director = $duration = $date = "";
+
+if(!empty($_POST))
 {
-    $name           = checkInput($_POST['name']);
-    $director    = checkInput($_POST['director']);
-    $duration       = checkInput($_POST['duration']);
-    $date      = checkInput($_POST['date']);
-    // $image          = checkInput($_FILES['image']['name']);
-    // $imagePath      = '../images/' .basename($image);
-    // $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
-    // $isSuccess      = true;
-    // $isUploadSuccess = false;
+    $name               = checkInput($_POST['name']);
+    $director           = checkInput($_POST['director']);
+    $duration           = checkInput($_POST['duration']);
+    $date               = checkInput($_POST['date']);
+    $phase              = checkInput($_POST['phase']);
+    $image              = checkInput($_FILES['image']['name']);
+    $imagePath          = './uploads/' .basename($image);
+    $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+    $isSuccess          = true;
+    $isUploadSuccess    = false;
 
-    $query = $connect->prepare()
+    echo $duration;
+
+    if (empty($name)) {
+        $nameError = "Ce champ n'est pas être vide.";
+        $isSuccess = false;
+    }
+
+    if (empty($director)) {
+        $directorError = "Ce champ n'est pas être vide.";
+        $isSuccess = false;
+    }
+    if (empty($duration)) {
+        $durationError = "Ce champ n'est pas être vide.";
+        $isSuccess = false;
+    }
+    if (empty($data)) {
+        $descriptionError = "Ce champ n'est pas être vide.";
+        $isSuccess = false;
+    }
+    if (empty($image)) {
+        $imageError = "Insérer une image";
+        $isSuccess = false;
+    } else {
+        $isUploadSuccess = true;
+        if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
+            $imageError = "Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif";
+            $isUploadSuccess = false;
+        }
+        if (file_exists($imagePath)) {
+            $imageError = "Le fichier existe déjà";
+            $isUploadSuccess = false;
+        }
+        if ($_FILES['image']["size"] > 500000) {
+            $imageError = "Le fichier ne doit pas dépasser 500KB";
+            $isUploadSuccess = false;
+        }
+        if ($isUploadSuccess) {
+            if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
+                $imageError = "Il y a eu une erreur lors de l'upload";
+                $isUploadSuccess = false;
+            }
+        }
+    }
+    if ($isSuccess && $isUploadSuccess) {
+        echo'ajout réussi';
+        // $query = $connect->prepare("INSERT INTO movies (name, director, duration, date, image), phases.id from phases values (?, ?, ?, ?, ?)");
+        $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
+        VALUES (NULL, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);");
+        $query->execute(array($name, $date, $duration, $director, $image, $phase));
+        $connect = null;
+        var_dump($query);
+        // header("Location:./index.php");
+    }
 
 }
 function checkInput ($data)
@@ -32,7 +87,7 @@ function checkInput ($data)
 
     <div class="container">
         <div class="row">
-            <h1><strong>Ajouter un Film </strong></h1>
+            <h1><strong>Ajouter un Film </strong></h1> 
             <br>
             <form class="form col-sm-12 col-lg-12" action="" method="post" enctype="multipart/form-data">
                 <div class="form-group">
@@ -55,7 +110,7 @@ function checkInput ($data)
                 </div>
                 <div class="form-group">
                     <label for="description">Date de sortie:</label>
-                    <input type="date" class="form-control" id="time" name="date_realse"
+                    <input type="date" class="form-control" id="time" name="date"
                         value="<?php echo $date; ?>">
                     <span class="help-inline"><? echo $dateError; ?></span>
                 </div>
@@ -74,7 +129,7 @@ function checkInput ($data)
                         <? echo $phaseError; ?></span>
                 </div>
                 <div class="custom-file">
-                    <input type="img" class="custom-file-input" id="customFile">
+                    <input type="file" class="custom-file-input" id="customFile" name="image">
                     <label class="custom-file-label" for="customFile">Insérer l'affiche du film</label>
                 </div>
 
