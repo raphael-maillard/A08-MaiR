@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 04 août 2020 à 08:48
+-- Généré le :  mar. 04 août 2020 à 19:39
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`release_date`),
   KEY `movies_id_phases` (`id_phase`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `movies`
@@ -51,8 +51,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
 INSERT INTO `movies` (`id`, `name`, `release_date`, `duration`, `director`, `image`, `id_phase`, `created_at`, `modified_at`) VALUES
 (1, 'IronMan', '2008-04-30', '02:06:00', 'Jon Favreau', 'ironman.jpg', 1, '2020-07-31 17:39:06', NULL),
 (2, 'Les Gardiens de la Galaxie', '2014-08-07', '02:01:00', 'James Gunn', 'gardiens.jpg', 1, '2020-07-31 17:40:32', NULL),
-(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterrier', 'incredible-hulk.jpg', 1, '2020-07-31 17:50:16', NULL),
-(4, 'Thor le Monde des ténébres', '2013-10-30', '01:52:00', 'Alan Taylor', 'thor_le_monde_des_tenebres.jpg', 2, '2020-08-01 12:06:07', NULL);
+(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterrier', 'incredible-hulk.jpg', 1, '2020-07-31 17:50:16', NULL);
 
 -- --------------------------------------------------------
 
