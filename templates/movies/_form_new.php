@@ -80,16 +80,18 @@ if (!empty($_POST)) {
             }
         }
     }
-    if ($isSuccess && $isUploadSuccess) {
+    if ($isSuccess == true && $isUploadSuccess == true) {
         $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
-                                    VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP);");
+                                    VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
         $query->execute(array($name, $date, $duration, $director, $image, $phase));
         print('<div class="alert alert-success" role="alert">');
         print('    <h4 class="alert-heading text-center">Film ajouté avec succès !</h4>');
         print('</div>');
-    } elseif ($isSuccess == false) {
+    } 
+    else 
+    {
         print('<div class="alert alert-danger" role="alert">');
-        print('    <h4 class="alert-heading text-center">Un problème c\'est produit, le film n\'est pas enregistré</h4>');
+        print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
         print('</div>');
         echo $imageError;
     }

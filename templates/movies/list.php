@@ -1,15 +1,6 @@
 <!-- list -->
 <?php
 
-// $statement = $connect->query('SELECT movies.id, movies.name, movies.id_image,images.image, images.alt 
-//                               FROM images 
-//                               JOIN movies ON images.id = movies.id_image ');
-
-// $statement->fetchAll(PDO::FETCH_OBJ);
-
-// print_r($statement);
-
-
 $count = $connect->prepare("SELECT COUNT(*) AS row FROM movies");
 $count->execute();
 
@@ -23,7 +14,7 @@ $count= $count->fetchAll(PDO::FETCH_OBJ);
 // print_r ("Nomre de ligne ".$count[0]->row."<br>");
 //Init $row and $image
 $row = $count[0]->row;
-echo $row;
+// echo $row;
 $image=0;
 
 if($image==0)
@@ -68,4 +59,5 @@ echo '<div class="container mt-5 mb-5">';
             }
 
     if($row == $image){echo '</div>';}
+
 ?>

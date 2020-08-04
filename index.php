@@ -19,7 +19,7 @@ if (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
 {
     include './templates/movies/list.php';
 }
-elseif (!empty($_GET['id']))
+elseif (!empty($_GET['id']) && empty($_POST))
 {
     include './templates/movies/show.php';
 }
@@ -30,15 +30,20 @@ elseif (isset($_POST['search']))
 elseif(isset($_GET['add']))
 {
     include './templates/movies/_form_new.php';
+} 
+elseif (isset($_GET['list']) && !empty($_POST['id-del'])) 
+{
+    $id = ($_POST['id-del']);
+    $delete = $connect->prepare("DELETE FROM movies WHERE id= ?");
+    $delete->execute(array($id));
+    print('<div class="alert alert-success" role="alert">');
+    print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
+    print('</div>');
 }
-
 else{
 
     echo '<h1 class="display-1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
 }
-
-
-
 
 
             /**
