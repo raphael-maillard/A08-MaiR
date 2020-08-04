@@ -1,6 +1,6 @@
 <?php
 
-$database = 'mysqlzzzzzzzz :host=127.0.0.1:3308; dbname=a08-MaiR; charset=utf8';
+$database = 'mysql:host=127.0.0.1:3308; dbname=a08-MaiR; charset=utf8';
 $user = 'a08';
 $pwd = 'mdp';
 

@@ -5,10 +5,9 @@ if (!empty($_GET['id'])) {
     $id = checkInput($_GET['id']);
 }
 
-$statement = $connect->prepare('SELECT movies.id, movies.name, movies.id_image, movies.director, movies.release_date, movies.duration ,images.image, images.alt, phases.phase
-                           FROM images 
-                           JOIN movies ON images.id = movies.id_image
-                           JOIN phases ON phases.id = movies.id_phase
+$statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
+                           FROM phases 
+                           JOIN movies ON phases.id = movies.id_phase
                            WHERE movies.id= ?');
 
 // SELECT movies.id, movies.name, movies.id_image, images.image, images.alt , phases.phase
@@ -64,7 +63,7 @@ function checkInput($data)
         <div class="col-sm-6">
             <div class="thumbnail">
                 <div class="d-flex flex-column">
-                    <div><img class="img-fluid img-responsive" src="<?php echo ' ../A08-MaiR/uploads/' . $item['image'] ?>"></div>
+                    <div><img class="img-fluid img-responsive" src="<?php echo ' ../A08-MaiR/uploads/' . $item['image'].'" alt="Affiche du film '.$item['name']?>"></div>
                 </div>
             </div>
         </div>

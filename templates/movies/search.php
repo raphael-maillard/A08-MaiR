@@ -4,13 +4,13 @@
     {
         $keyword = $_POST['search'];
 
-        $search = " SELECT movies.id, movies.name, movies.id_image, movies.director, movies.release_date, movies.duration ,images.image, images.alt, phases.phase
-                    FROM images 
-                    JOIN movies ON images.id = movies.id_image
-                    JOIN phases ON phases.id = movies.id_phase
+        $search = " SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
+                    FROM phases 
+                    JOIN movies ON phases.id = movies.id_phase
                     WHERE movies.name LIKE \"%$keyword%\"";
 
-        $result = $connect->query($search);
+        $result = $connect->prepare($search);
+        $result->execute();
         $result=$result->fetchAll(PDO::FETCH_ASSOC);
 
         // var_dump($result);
@@ -35,7 +35,7 @@
         echo ' <div class="p-4 bg-white">';
             echo ' <div class="d-flex flex-column">';
                 echo '<a class="thumbnail" href="index.php?id='.$result['id'].'">';
-                    echo ' <div><img class="img-responsive img-thumbnail" src="../A08-MaiR/uploads/'.$result['image'].'" alt = "'.$result['alt'].'" ></div></a>';
+                    echo ' <div><img class="img-responsive img-thumbnail" src="../A08-MaiR/uploads/'.$result['image'].'" alt = "Affiche du film'.$result['name'].'" ></div></a>';
                 $image++;
                 echo ' <div class="d-flex flex-column">';
                     echo ' <div class="d-flex flex-row justify-content-between align-items-center">';

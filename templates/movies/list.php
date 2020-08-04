@@ -10,14 +10,13 @@
 // print_r($statement);
 
 
-$count = $connect->prepare(" SELECT COUNT(*) AS row FROM movies ");
+$count = $connect->prepare("SELECT COUNT(*) AS row FROM movies");
 $count->execute();
 
 
-$sql = 'SELECT movies.id, movies.name, movies.id_image, images.image, images.alt , phases.phase
-        FROM images
-        JOIN movies ON images.id = movies.id_image
-        JOIN phases ON phases.id = movies.id_phase';
+$sql = 'SELECT movies.id, movies.name, movies.image, phases.phase
+        FROM phases
+        JOIN movies ON phases.id = movies.id_phase';
 
 $count= $count->fetchAll(PDO::FETCH_OBJ);
 //Check line number
@@ -49,7 +48,7 @@ echo '<div class="container mt-5 mb-5">';
                         echo ' <div class="p-4 bg-white">';
                             echo ' <div class="d-flex flex-column">';
                                 echo '<a class="thumbnail" href="index.php?id='.$item['id'].'">';
-                                    echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/'.$item['image'].'" alt = "'.$item['alt'].'" ></div></a>';
+                                    echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/'.$item['image'].'" alt = "Affiche du film '.$item['name'].'" ></div></a>';
                                 $image++;
                                 echo ' <div class="d-flex flex-column">';
                                     echo ' <div class="d-flex flex-row justify-content-between align-items-center">';
