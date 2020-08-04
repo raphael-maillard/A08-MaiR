@@ -7,7 +7,7 @@ $pwd = 'mdp';
 try {
     $connect = new PDO($database, $user, $pwd);
     $connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    print_r ("Connexion réussi <br>");    
+    // print_r ("Connexion réussi <br>");    
 }
 catch (PDOException $e) {
     echo 'Connexion échouée : ' . $e->getMessage();

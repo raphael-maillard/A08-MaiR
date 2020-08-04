@@ -29,10 +29,6 @@ function checkInput($data)
     return $data;
 }
 ?>
-
-
-
-
 <div class="container admin">
     <div class="row">
         <div class="col-sm-6">
