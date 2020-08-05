@@ -7,7 +7,8 @@ $count->execute();
 
 $sql = 'SELECT movies.id, movies.name, movies.image, phases.phase
         FROM phases
-        JOIN movies ON phases.id = movies.id_phase';
+        JOIN movies ON phases.id = movies.id_phase
+        ORDER BY release_date ASC';
 
 $count= $count->fetchAll(PDO::FETCH_OBJ);
 //Check line number

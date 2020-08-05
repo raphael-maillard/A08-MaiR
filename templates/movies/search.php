@@ -7,7 +7,8 @@
         $search = " SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
                     FROM phases 
                     JOIN movies ON phases.id = movies.id_phase
-                    WHERE movies.name LIKE \"%$keyword%\"";
+                    WHERE movies.name LIKE \"%$keyword%\"
+                    ORDER BY release_date ASC";
 
         $result = $connect->prepare($search);
         $result->execute();
