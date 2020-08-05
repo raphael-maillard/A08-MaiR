@@ -51,8 +51,9 @@ if (!empty($_POST)) {
                       <p class="alert-heading">Insérer une image</p>
                       </div>';
         $isSuccess = false;
-    } else {
-        $isUploadSuccess = true;
+    } 
+    else 
+    {
         if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
             $imageError = '<div class="alert alert-warning" role="alert">
                           <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>

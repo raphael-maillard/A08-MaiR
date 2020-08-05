@@ -63,8 +63,9 @@ function checkInput($data)
         </div>
         <div class="form-group">
             <a class="btn btn-primary" href="index.php?list">Retour</a>
-            
-            <a class="btn btn-warning" href="index.php?edit-movies&id="<?php echo $_GET['id']?>"> Modifier</a>
+
+            <?php $id=$_GET['id'];
+            echo '<a class="btn btn-warning" href="index.php?edit-movies&id='.$id.'"> Modifier</a>';?>
 
             <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Supprimer</a>
         </div>

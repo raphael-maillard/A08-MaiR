@@ -13,11 +13,11 @@
 
         <section>
             <?php
-                if (isset($_GET["list"]) and ($_SERVER['REQUEST_METHOD'] != 'POST'))
+                if (isset($_GET["list"]) and !isset($_GET['id']))
                 {
                     include './templates/movies/list.php';
                 }
-                elseif (!empty($_GET['id']) && empty($_POST))
+                elseif (isset($_GET['id']) && isset($_GET['show-movie']))
                 {
                     include './templates/movies/show.php';
                 }
@@ -38,12 +38,14 @@
                     print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
                     print('</div>');
                 }
-                elseif(isset($_GET['edit-movies']) && isset($_GET['id'])){
-                    echo'je suis dans l\'edit';
+                elseif(isset($_GET['edit-movies']) && isset($_GET['id']))
+                {
+                    include './templates/movies/_form_edit.php';
                 }
-                else{
-
+                else
+                {
                     echo '<h1 class="display-1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
+                    
                 }
 
 
