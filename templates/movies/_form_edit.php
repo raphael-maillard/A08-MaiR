@@ -194,7 +194,7 @@ $item['release_date'] = date("d-m-Y", strtotime($item['release_date']));
             <div class="form-actions">
                 <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>
                     Modifier</button>
-                <a class="btn btn-primary" href="index.php"> <span class="glyphicon glyphicon-arrow-left"></span>
+                <a class="btn btn-primary" href="index.php?list"> <span class="glyphicon glyphicon-arrow-left"></span>
                     Retour</a>
             </div>
         </form>
