@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mar. 04 août 2020 à 19:39
+-- Généré le :  mer. 05 août 2020 à 14:46
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
 INSERT INTO `movies` (`id`, `name`, `release_date`, `duration`, `director`, `image`, `id_phase`, `created_at`, `modified_at`) VALUES
 (1, 'IronMan', '2008-04-30', '02:06:00', 'Jon Favreau', 'ironman.jpg', 1, '2020-07-31 17:39:06', NULL),
 (2, 'Les Gardiens de la Galaxie', '2014-08-07', '02:01:00', 'James Gunn', 'gardiens.jpg', 1, '2020-07-31 17:40:32', NULL),
-(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterrier', 'incredible-hulk.jpg', 1, '2020-07-31 17:50:16', NULL);
+(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterri', '08.jpg', 1, '2020-07-31 17:50:16', '2020-08-05 16:42:40');
 
 -- --------------------------------------------------------
 
