@@ -1,16 +1,15 @@
 <!-- show -->
 <?php
 
-var_dump($_POST);
-
-if (!empty($_GET['id'])) {
+if (!empty($_GET['id'])) 
+{
     $id = checkInput($_GET['id']);
 }
 
 $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
-                           FROM phases 
-                           JOIN movies ON phases.id = movies.id_phase
-                           WHERE movies.id= ?');
+                                FROM phases 
+                                JOIN movies ON phases.id = movies.id_phase
+                                WHERE movies.id= ?');
 
 $statement->execute(array($id));
 $item = $statement->fetch();
@@ -62,14 +61,13 @@ function checkInput($data)
                 </div>
             </div>
         </div>
-        <div class="form-actions ">
-            <a class="btn btn-primary" href="index.php?list"> <span class="glyphicon glyphicon-arrow-left">Retour</a><br>
+        <div class="form-group">
+            <a class="btn btn-primary" href="index.php?list">Retour</a>
+            
+            <a class="btn btn-warning" href="index.php?edit-movies&id="<?php echo $_GET['id']?>"> Modifier</a>
+
+            <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Supprimer</a>
         </div>
-
-
-        <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
-            Supprimer
-        </button>
 
         <!-- Modal -->
         <form action="index.php?list" method="POST">
@@ -87,8 +85,8 @@ function checkInput($data)
                         </div>
                         <div class="modal-body">Voulez-vous vraiment supprimer ce film de la liste ?</div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <input type="submit" value="Supprimer" href="index.php?list" class="btn btn-danger">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <input type="submit" value="Supprimer" href="index.php?list" class="btn btn-danger">                          
                         </div>
                     </div>
                 </div>

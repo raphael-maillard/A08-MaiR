@@ -104,8 +104,6 @@ function checkInput($data)
     return $data;
 }
 
-
-
 ?>
 
 <div class="container">
