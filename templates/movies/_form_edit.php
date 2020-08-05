@@ -21,9 +21,6 @@ if (!empty($_POST))
     $isSuccess          = true;
     $isUploadSuccess    = false;
 
-    $phase=intval($phase);
-    var_dump($phase);
-
     if (empty($name)) 
     {
         $nameError = '<div class="alert alert-warning" role="alert">
@@ -56,14 +53,13 @@ if (!empty($_POST))
     if(!empty($_FILES['image']['name']))
     {
         $isUploadSuccess=true;
-        
+
         if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
         {
             $imageError = '<div class="alert alert-warning" role="alert">
                         <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
                         </div>';
             $isUploadSuccess = false;
-            echo $imageError;
         }
         if (file_exists($imagePath)) 
         {
@@ -71,7 +67,6 @@ if (!empty($_POST))
                         <p class="alert-heading">Le fichier existe déjà</p>
                         </div>';
             $isUploadSuccess = false;
-            echo $imageError;
         }
         if ($_FILES['image']["size"] > 500000) 
         {
@@ -79,7 +74,6 @@ if (!empty($_POST))
                         <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                         </div>';
             $isUploadSuccess = false;
-            echo $imageError;
         }
         if ($isUploadSuccess) 
         {
@@ -88,9 +82,7 @@ if (!empty($_POST))
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
                             </div>';
-                $isUploadSuccess = false;
-                echo $imageError;
-                
+                $isUploadSuccess = false;                
             }
         }
     }
@@ -100,17 +92,13 @@ if (!empty($_POST))
 
         $statement->execute(array($id));
         $item = $statement->fetch();
-
         $image= $item['image'];
         $isUploadSuccess=true;
-
-        echo "$image ceci est la valeur de l'image";
     }
-    if ($isSuccess && $isUploadSuccess) 
+    if ($isSuccess ==true && $isUploadSuccess ==true) 
         {
             $query = $connect->prepare("UPDATE movies 
-                                        SET name=:name, release_date=:date, duration=:duration,director=:director,image=$image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
-                                        JOIN phases ON movies.id_phase = phases.id
+                                        SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
                                         WHERE movies.id=$id");
             $query->execute(array(
                 "name" => $name,
@@ -125,6 +113,7 @@ if (!empty($_POST))
         } 
         else 
         {
+            print "je suis pas dans la requete";
             print('<div class="alert alert-danger" role="alert">');
             print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas modifié !</h4>');
             print('</div>');
