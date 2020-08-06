@@ -13,11 +13,11 @@ Amusez-vous bien ^^
 
 ===> Contraintes:
 
-- [ ] seules les technologies HTML5, Bootstrap, PHP/MySQL devront être utilisées
-- [ ] l'arborescence du code source ne doit pas être modifiée sauf indications
-- [ ] la bdd devra être construite selon les instructions fournies (_instructions/...JPG)
-- [ ] les affiches des films devront avoir une taille de 300x400px 72ppp
-- [] vous devrez re-travailler toutes les images pour le web (minimiser les tailles) avant de les uploader, exemple avec "./uploads/incredible-hulk.jpg" qui fait 31,4Ko pour 300x400px
+- [x] seules les technologies HTML5, Bootstrap, PHP/MySQL devront être utilisées
+- [x] l'arborescence du code source ne doit pas être modifiée sauf indications
+- [x] la bdd devra être construite selon les instructions fournies (_instructions/...JPG)
+- [x] les affiches des films devront avoir une taille de 300x400px 72ppp
+- [x] vous devrez re-travailler toutes les images pour le web (minimiser les tailles) avant de les uploader, exemple avec "./uploads/incredible-hulk.jpg" qui fait 31,4Ko pour 300x400px
 - [x] lu et approuvé
 
 ===> 1
@@ -33,26 +33,26 @@ Les différentes pages de l'appli:
 - [x] accueil (message de bienvenue)
 - [x] liste de tous les films sous forme d'images cliquables (fiche du film)
 - [x] la fiche d'un film
-- [] résultat(s) de recherche triée du plus ancien au plus récent
+- [x] résultat(s) de recherche triée du plus ancien au plus récent
 
 Page liste de tous les films:
-- [ ] toutes les affiches triée du plus ancien au plus récent
-- [ ] boutton ajouter
+- [x] toutes les affiches triée du plus ancien au plus récent
+- [x] boutton ajouter
 
 Page fiche d'un film:
-- [ ] l'image
+- [x] l'image
 - [ ] toutes les infos de la bdd (+ formatage de l'affichage pour release_date, exemple "31 juillet 2020")
-- [ ] boutton retour à la liste
-- [ ] boutton modifier
-- [ ] boutton supprimer qui ouvre une popup bootstrap et demande confirmation
+- [x] boutton retour à la liste
+- [x] boutton modifier
+- [x] boutton supprimer qui ouvre une popup bootstrap et demande confirmation
 
 Search:
-- [ ] être en mesure de pouvoir faire une recherche de film, peut importe la page sur laquelle on se trouve
+- [x] être en mesure de pouvoir faire une recherche de film, peut importe la page sur laquelle on se trouve
 
 ===> 3
 
 Au niveau du contenu des données:
-- [ ] au moins 10 films (date de sortie et titre fr)
+- [x] au moins 10 films (date de sortie et titre fr)
 
 ===> 4
 

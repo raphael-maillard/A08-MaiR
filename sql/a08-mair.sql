@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `movies` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`release_date`),
   KEY `movies_id_phases` (`id_phase`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `movies`
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `phases` (
   `id` tinyint(3) NOT NULL AUTO_INCREMENT,
   `phase` char(3) CHARACTER SET utf8mb4 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `phases`

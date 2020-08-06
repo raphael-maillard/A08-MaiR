@@ -1,11 +1,10 @@
 <!-- form new -->
-
-
 <?php
 
 $nameError = $directorError = $durationError = $dateError = $imageError = $name = $director = $duration = $date = "";
 
-if (!empty($_POST)) {
+if (!empty($_POST)) 
+{
     $name               = checkInput($_POST['name']);
     $director           = checkInput($_POST['director']);
     $duration           = checkInput($_POST['duration']);
@@ -18,26 +17,32 @@ if (!empty($_POST)) {
     $isUploadSuccess    = false;
 
 
-    if (empty($name)) {
+    if (empty($name)) 
+    {
         $nameError = '<div class="alert alert-warning" role="alert">
                      <p class="alert-heading">Veuillez saisir un titre de film</p>
                      </div>';
         $isSuccess = false;
     }
 
-    if (empty($director)) {
+    if (empty($director)) 
+    {
         $directorError = '<div class="alert alert-warning" role="alert">
                          <p class="alert-heading">Veuillez remplir le champ</p>
                          </div>';
         $isSuccess = false;
     }
-    if (empty($duration)) {
+
+    if (empty($duration)) 
+    {
         $durationError = '<div class="alert alert-warning" role="alert">
                          <p class="alert-heading">Veuillez saisir une durée</p>
                          </div>';
         $isSuccess = false;
     }
-    if (empty($date)) {
+
+    if (empty($date)) 
+    {
         $dateError = '<div class="alert alert-warning" role="alert">
                      <p class="alert-heading">Entré la date de sortie du film</p>
                      </div>';
@@ -46,7 +51,9 @@ if (!empty($_POST)) {
                      </div>';
         $isSuccess = false;
     }
-    if (empty($image)) {
+
+    if (empty($image)) 
+    {
         $imageError = '<div class="alert alert-warning" role="alert">
                       <p class="alert-heading">Insérer une image</p>
                       </div>';
@@ -56,25 +63,32 @@ if (!empty($_POST)) {
     {
         $isUploadSuccess=true;
         
-        if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
+        if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
+        {
             $imageError = '<div class="alert alert-warning" role="alert">
                           <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
                           </div>';
             $isUploadSuccess = false;
         }
-        if (file_exists($imagePath)) {
+
+        if (file_exists($imagePath))
+        {
             $imageError ='<div class="alert alert-warning" role="alert">
                           <p class="alert-heading">Le fichier existe déjà</p>
                           </div>';
             $isUploadSuccess = false;
         }
-        if ($_FILES['image']["size"] > 500000) {
+
+        if ($_FILES['image']["size"] > 500000) 
+        {
             $imageError = '<div class="alert alert-warning" role="alert">
                            <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                            </div>';
             $isUploadSuccess = false;
         }
-        if ($isUploadSuccess) {
+
+        if ($isUploadSuccess) 
+        {
             if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
@@ -83,7 +97,9 @@ if (!empty($_POST)) {
             }
         }
     }
-    if ($isSuccess == true && $isUploadSuccess == true) {
+
+    if ($isSuccess == true && $isUploadSuccess == true) 
+    {
         $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
                                     VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
         $query->execute(array($name, $date, $duration, $director, $image, $phase));
@@ -99,6 +115,7 @@ if (!empty($_POST)) {
         echo $imageError;
     }
 }
+
 function checkInput($data)
 {
     $data = trim($data);

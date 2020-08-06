@@ -27,6 +27,7 @@
             echo '<div class="container">';
 
             $image=0;
+
             if($image %3 == 0)
             {
                 echo ' <div class="row">';
@@ -49,6 +50,7 @@
                     echo ' </div>';
                 echo ' </div>';
             }
+            
             if( $image %3 == 0)
             {
                 echo ' </div>';
