@@ -41,7 +41,7 @@ Page liste de tous les films:
 
 Page fiche d'un film:
 - [x] l'image
-- [ ] toutes les infos de la bdd (+ formatage de l'affichage pour release_date, exemple "31 juillet 2020")
+- [x] toutes les infos de la bdd (+ formatage de l'affichage pour release_date, exemple "31 juillet 2020")
 - [x] boutton retour à la liste
 - [x] boutton modifier
 - [x] boutton supprimer qui ouvre une popup bootstrap et demande confirmation
@@ -57,9 +57,9 @@ Au niveau du contenu des données:
 ===> 4
 
 Une fois votre activité terminée
-- [ ] exportez votre bdd (format .sql) dans le dossier sql
-- [ ] faites un dernier commit "part 1 completed"
-- [ ] et prévenez moi
+- [x] exportez votre bdd (format .sql) dans le dossier sql
+- [x] faites un dernier commit "part 1 completed"
+- [x] et prévenez moi
 
 ===> 5
 ```

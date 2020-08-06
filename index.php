@@ -14,16 +14,35 @@
 
     <section>
         <?php
-        // Condition show the good page in function what I want
-        if (isset($_GET["list"]) and !isset($_GET['id'])) {
-            include './templates/movies/list.php';
-        } elseif (isset($_GET['id']) && isset($_GET['show-movie'])) {
-            include './templates/movies/show.php';
-        } elseif (isset($_POST['search'])) {
+        // Condition show the good page in function what you want
+
+        // If you search a movies you arrived here
+        if (isset($_POST['search'])) 
+        {
             include './templates/movies/search.php';
-        } elseif (isset($_GET['add'])) {
+        } 
+
+        // If you want add a movie the list
+        elseif (isset($_GET['add'])) 
+        {
             include './templates/movies/_form_new.php';
-        } elseif (isset($_GET['list']) && !empty($_POST['id-del'])) {
+        } 
+
+        // If you want check the list of movies
+        elseif (isset($_GET["list"]) and !isset($_GET['id'])) 
+        {
+            include './templates/movies/list.php';
+        } 
+
+        // If you click on the card movie, you arrived here
+        elseif (isset($_GET['id']) && isset($_GET['show-movie'])) 
+        {
+            include './templates/movies/show.php';
+        }
+
+        // If you want to delete the movie the traitement is here
+        elseif (isset($_GET['list']) && !empty($_POST['id-del'])) 
+        {
             // recover the ID
             $id = ($_POST['id-del']);
             // Prepare the request
@@ -35,15 +54,23 @@
             print('<div class="alert alert-success" role="alert">');
             print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
             print('</div>');
-        } elseif (isset($_GET['edit-movies']) && isset($_GET['id'])) {
+        } 
+
+        // For edit the movie you are redirect
+        elseif (isset($_GET['edit-movies']) && isset($_GET['id'])) 
+        {
             include './templates/movies/_form_edit.php';
         }
+
         // Else show the home page
-        else {
+        else 
+        {
             echo '<h1 class="h1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
         }
+
         ?>
     </section>
+    
     <!--Include the bottom page footer  -->
     <?php include_once './templates/footer.html'; ?>
 

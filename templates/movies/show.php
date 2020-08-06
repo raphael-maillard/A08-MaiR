@@ -1,24 +1,27 @@
 <!-- show -->
 <?php
 
+// Recovery the id  and push in variable
 if (!empty($_GET['id'])) {
     $id = checkInput($_GET['id']);
 }
 
+// Prepare request sql 
 $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase,  movies.created_at, movies.modified_at
                                 FROM phases 
                                 JOIN movies ON phases.id = movies.id_phase
                                 WHERE movies.id= ?');
 
+// Execute the request
 $statement->execute(array($id));
 $item = $statement->fetch();
 
-
+// Format the dates
 $item['release_date'] = date("d-m-Y", strtotime($item['release_date']));
 $item['created_at'] = date("d-m-Y", strtotime($item['created_at']));
 $item['modified_at'] = date("d-m-Y", strtotime($item['modified_at']));
 
-
+// function to check
 function checkInput($data)
 {
     $data = trim($data);
@@ -33,7 +36,9 @@ function checkInput($data)
         <div class="col-sm-6">
             <h1><strong>Affiche de film </strong></h1>
             <br>
+            <!-- Start the form to enter the information relative at the movie -->
             <form>
+                <!-- Start show the infomations -->
                 <div class="form-group">
                     <label>Nom:</label><?php echo ' ' . $item['name'] ?>
                 </div>
@@ -58,27 +63,32 @@ function checkInput($data)
                 <div class="form-group">
                     <label>Dernière modification : </label><?php echo ' ' . $item['modified_at'] ?>
                 </div>
+                <!-- end show the infomations -->
 
             </form>
+            <!-- End the form -->
 
         </div>
         <div class="col-sm-6">
             <div class="thumbnail">
                 <div class="d-flex flex-column pt-4">
+                    <!-- Show the image and link onclick to this -->
                     <div><img class="img-fluid img-responsive" src="<?php echo ' ../A08-MaiR/uploads/' . $item['image'] . '" alt="Affiche du film ' . $item['name'] ?>"></div>
                 </div>
             </div>
         </div>
         <div class="form-group p-4">
             <a class="btn btn-primary" href="index.php?list">Retour</a>
-
-            <?php $id = $_GET['id'];
-            echo '<a class="btn btn-warning" href="index.php?edit-movies&id=' . $id . '"> Modifier</a>'; ?>
-
+            <!-- Must to be use balise php for use the variable id  -->
+            <?php
+            $id = $_GET['id'];
+            echo '<a class="btn btn-warning" href="index.php?edit-movies&id=' . $id . '"> Modifier</a>';
+            ?>
+            <!-- btn to show the dialog box  -->
             <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Supprimer</a>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal to ask if you are sure to delete the item -->
         <form action="index.php?list" method="POST">
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

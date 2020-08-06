@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  mer. 05 août 2020 à 14:46
+-- Généré le :  jeu. 06 août 2020 à 16:30
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -31,10 +31,10 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `movies`;
 CREATE TABLE IF NOT EXISTS `movies` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(80) CHARACTER SET utf8 NOT NULL,
+  `name` varchar(80) NOT NULL,
   `release_date` date NOT NULL,
   `duration` time DEFAULT NULL,
-  `director` varchar(80) CHARACTER SET utf8 DEFAULT NULL,
+  `director` varchar(80) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   `id_phase` tinyint(3) DEFAULT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,16 +42,25 @@ CREATE TABLE IF NOT EXISTS `movies` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`,`release_date`),
   KEY `movies_id_phases` (`id_phase`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `movies`
 --
 
 INSERT INTO `movies` (`id`, `name`, `release_date`, `duration`, `director`, `image`, `id_phase`, `created_at`, `modified_at`) VALUES
-(1, 'IronMan', '2008-04-30', '02:06:00', 'Jon Favreau', 'ironman.jpg', 1, '2020-07-31 17:39:06', NULL),
-(2, 'Les Gardiens de la Galaxie', '2014-08-07', '02:01:00', 'James Gunn', 'gardiens.jpg', 1, '2020-07-31 17:40:32', NULL),
-(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterri', '08.jpg', 1, '2020-07-31 17:50:16', '2020-08-05 16:42:40');
+(1, 'IronMan', '2008-04-30', '02:06:00', 'Jon Favreau', 'ironman.jpg', 1, '2020-07-31 17:39:06', '2020-08-06 09:36:39'),
+(2, 'Les Gardiens de la Galaxie', '2014-08-07', '02:01:00', 'James Gunn', 'gardiens.jpg', 2, '2020-07-31 17:40:32', '2020-08-06 09:47:35'),
+(3, 'L\'incroyable Hulk', '2008-07-23', '01:52:00', 'Louis Leterri', 'incroyable-hulk.jpg', 1, '2020-07-31 17:50:16', '2020-08-06 18:21:15'),
+(4, 'Iron Man 2', '2010-04-28', '02:04:00', 'Jon Favreau', 'Ironman-2.jpg', 1, '2020-08-06 09:38:48', NULL),
+(5, 'Thor', '2011-04-27', '01:55:00', 'Kenneth Branagh', 'thor.jpg', 1, '2020-08-06 09:44:23', NULL),
+(6, 'Iron Man 3', '2013-04-19', '02:11:00', 'Shane Black', 'Ironman-3.jpg', 2, '2020-08-06 09:45:26', NULL),
+(7, 'Thor : Le Monde des ténèbres', '2013-10-30', '01:52:00', 'Alan Taylor', 'thor_le_monde_des_tenebres.jpg', 2, '2020-08-06 09:46:10', NULL),
+(8, 'Captain America : Le Soldat de l\'hiver', '2014-03-21', '02:16:00', 'Anthony Russo, Joe Russo', 'Captain-America.jpg', 2, '2020-08-06 09:46:57', NULL),
+(9, 'Captain America: Civil War', '2016-04-27', '02:28:00', 'Anthony Russo, Joe Russo', 'captain.jpg', 3, '2020-08-06 09:48:26', NULL),
+(10, 'Doctor Strange', '2016-10-26', '01:55:00', 'Scott Derrickson', 'Doctor-Strange.jpg', 3, '2020-08-06 09:48:58', NULL),
+(11, 'Les Gardiens de la Galaxie Vol. 2', '2017-04-19', '02:16:00', 'James Gunn', 'gardiens-2.jpg', 3, '2020-08-06 09:49:26', NULL),
+(12, 'Spider-Man: Homecoming', '2017-06-12', '02:14:00', 'Jon Watts', 'Spiderman Home Coming.jpg', 3, '2020-08-06 09:50:00', NULL);
 
 -- --------------------------------------------------------
 

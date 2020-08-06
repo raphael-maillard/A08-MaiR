@@ -1,16 +1,15 @@
 <!-- form edit -->
 <?php
-
+// Init variable to escape the errors
 $nameError = $directorError = $durationError = $dateError = $imageError = "";
 
 // checkif id not empty
-if (!empty($_GET['id'])) 
-{
+if (!empty($_GET['id'])) {
+
     $id = checkInput($_GET['id']);
 
     //Check if post doesn't empty and completed the variables
-    if (!empty($_POST)) 
-    {
+    if (!empty($_POST)) {
         $name               = checkInput($_POST['name']);
         $director           = checkInput($_POST['director']);
         $duration           = checkInput($_POST['duration']);
@@ -22,104 +21,108 @@ if (!empty($_GET['id']))
         $isSuccess          = true;
         $isUploadSuccess    = false;
 
-        if (empty($name)) 
-        {
+        // adapt the code error
+        if (empty($name)) {
             $nameError = '<div class="alert alert-warning" role="alert">
                         <p class="alert-heading">Veuillez saisir un titre de film</p>
                         </div>';
             $isSuccess = false;
         }
-        if (empty($director)) 
-        {
+
+        if (empty($director)) {
             $directorError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez remplir le champ</p>
                             </div>';
             $isSuccess = false;
         }
-        if (empty($duration)) 
-        {
+
+        if (empty($duration)) {
             $durationError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez saisir une durée</p>
                             </div>';
             $isSuccess = false;
         }
-        if (empty($date)) 
-        {
+
+        if (empty($date)) {
             $dateError = '<div class="alert alert-warning" role="alert">
                         <p class="alert-heading">Entré la date de sortie du film</p>
                         </div>';
             $isSuccess = false;
         }
 
-        if(!empty($_FILES['image']['name']))
-        {
-            $isUploadSuccess=true;
+        // process of the image if exist
+        if (!empty($_FILES['image']['name'])) {
+            // Adapt the parameter
+            $isUploadSuccess = true;
 
-            if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
-            {
+            // Check the extension file
+            if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
                             </div>';
                 $isUploadSuccess = false;
             }
-            if (file_exists($imagePath)) 
-            {
-                $imageError ='<div class="alert alert-warning" role="alert">
+
+            // Check if the file don't exist
+            if (file_exists($imagePath)) {
+                $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier existe déjà</p>
                             </div>';
                 $isUploadSuccess = false;
             }
-            if ($_FILES['image']["size"] > 500000) 
-            {
+
+            // Check if the file respect the maximum size
+            if ($_FILES['image']["size"] > 500000) {
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                             </div>';
                 $isUploadSuccess = false;
             }
-            if ($isUploadSuccess) 
-            {
-                if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
-                {
+
+            // If not problem check if the move is okay
+            if ($isUploadSuccess) {
+                if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
                     $imageError = '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
                                 </div>';
-                    $isUploadSuccess = false;                
+                    $isUploadSuccess = false;
                 }
             }
         }
-        if(empty($_FILES['image']['name']))
-        {
+        
+        // If don't change the image, recovery currently image
+        if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) {
             $statement = $connect->prepare('SELECT image  FROM movies WHERE movies.id= ?');
-
             $statement->execute(array($id));
             $item = $statement->fetch();
-            $image= $item['image'];
-            $isUploadSuccess=true;
+            $image = $item['image'];
+            $isUploadSuccess = true;
         }
-        if ($isSuccess ==true && $isUploadSuccess ==true) 
-            {
-                $query = $connect->prepare("UPDATE movies 
+
+        if ($isSuccess == true && $isUploadSuccess == true) {
+            //Init the variable 
+            $query = $connect->prepare("UPDATE movies 
                                             SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
                                             WHERE movies.id=$id");
-                $query->execute(array(
-                    "name" => $name,
-                    "date" =>$date, 
-                    "duration" =>$duration, 
-                    "director" =>$director,
-                    "image" =>$image, 
-                    "phase" =>$phase));
-                print('<div class="alert alert-success" role="alert">');
-                print('    <h4 class="alert-heading text-center">Film modifié avec succès !</h4>');
-                print('</div>');
-            } 
-            else 
-            {
-                print "je suis pas dans la requete";
-                print('<div class="alert alert-danger" role="alert">');
-                print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas modifié !</h4>');
-                print('</div>');
-                echo $imageError;
-            }
+            $query->execute(array(
+                "name" => $name,
+                "date" => $date,
+                "duration" => $duration,
+                "director" => $director,
+                "image" => $image,
+                "phase" => $phase
+            ));
+            print('<div class="alert alert-success" role="alert">');
+            print('    <h4 class="alert-heading text-center">Film modifié avec succès !</h4>');
+            print('</div>');
+        } 
+        else 
+        {
+            print('<div class="alert alert-danger" role="alert">');
+            print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas modifié !</h4>');
+            print('</div>');
+            echo $imageError;
+        }
     }
     //make request and execute with the good id 
     $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
@@ -130,18 +133,17 @@ if (!empty($_GET['id']))
     $statement->execute(array($id));
     $item = $statement->fetch();
 
-    $name=$item['name'];
-    $director=$item['director'];
-    $duration=$item['duration'];
-    $date=$item['release_date'];
-    $phase=$item['phase'];
-    $image=$item['image'];
+    // redefine the variables
+    $name = $item['name'];
+    $director = $item['director'];
+    $duration = $item['duration'];
+    $date = $item['release_date'];
+    $phase = $item['phase'];
+    $image = $item['image'];
 
+    // Set the local 
     $item['release_date'] = date("d-m-Y", strtotime($item['release_date']));
-
-}
-else
-{
+} else {
     echo '<div class="alert alert-danger" role="alert">
             <h4 class="alert-heading">Une erreur est survenue</h4>
             <p>Une erreur est survenue.</p>
@@ -150,7 +152,7 @@ else
           </div>';
     die();
 }
-
+// Init function checkInput to verify the data
 function checkInput($data)
 {
     $data = trim($data);
@@ -163,29 +165,35 @@ function checkInput($data)
 
 <div class="container">
     <div class="row">
+        <!-- Start the form -->
         <form class="form col-12 col-lg-6" action="" method="POST" enctype="multipart/form-data">
             <h1><strong>Modifier un Film </strong></h1>
             <br>
+            <!-- Create a new field  -->
             <div class="form-group">
                 <label for="name">Nom du film:</label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Nom du film" value="<?php print $name; ?>">
                 <span class="help-inline"><?php echo $nameError; ?></span>
             </div>
+            <!-- Create a new field  -->
             <div class="form-group">
                 <label for="description">Réalisateur:</label>
                 <input type="text" class="form-control" id="director" name="director" placeholder="Réalisateur" value="<?php echo $director; ?>"></input>
                 <span class="help-inline"><?php echo $directorError; ?></span>
             </div>
+            <!-- Create a new field  -->
             <div class="form-group">
                 <label for="description">Durée:</label>
                 <input type="time" class="form-control" id="time" name="duration" value="<?php echo $duration; ?>">
                 <span class="help-inline"><?php echo $durationError; ?></span>
             </div>
+            <!-- Create a new field  -->
             <div class="form-group">
                 <label for="description">Date de sortie:</label>
                 <input type="date" class="form-control" id="time" name="date" value="<?php echo $date; ?>">
                 <span class="help-inline"><?php echo $dateError; ?></span>
             </div>
+            <!-- Create a new field  -->
             <div class="form-group">
                 <label for="category">Phase:</label>
                 <select class="custom-select" name="phase" id="category">
@@ -196,6 +204,7 @@ function checkInput($data)
                     ?>
                 </select>
             </div>
+            <!-- Create a new select  -->
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" name="image">
                 <label class="custom-file-label" for="customFile"></label>
@@ -209,11 +218,11 @@ function checkInput($data)
                     Retour</a>
             </div>
         </form>
-
+        <!-- Show the movie modify  -->
         <div class="col-sm-3">
             <h1 class="mw-100"><strong>Fiche du film</strong></h1>
             <br>
-            <form class="pt-4"> 
+            <form class="pt-4">
                 <div class="form-group">
                     <label>Nom:</label><?php echo ' ' . $item['name'] ?>
                 </div>
