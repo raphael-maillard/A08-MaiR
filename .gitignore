@@ -1,2 +1,5 @@
+.gitignore
+
 todo.txt
-/_instructions
+
+/_instructions/
