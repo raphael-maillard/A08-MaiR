@@ -19,8 +19,8 @@
         // If you search a movies you arrived here
         if (isset($_POST['search'])) 
         {
-            include './templates/movies/search.php';
-        } 
+            include './templates/search.php';
+        }
 
         // If you want add a movie the list
         elseif (isset($_GET['add'])) 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  jeu. 06 août 2020 à 16:30
+-- Généré le :  ven. 14 août 2020 à 12:18
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -21,6 +21,40 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `a08-mair`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `actors`
+--
+
+DROP TABLE IF EXISTS `actors`;
+CREATE TABLE IF NOT EXISTS `actors` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `last_name` varchar(80) NOT NULL,
+  `first_name` varchar(80) NOT NULL,
+  `dob` date NOT NULL,
+  `image` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `modify_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `last_name` (`last_name`,`first_name`,`dob`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `actors_movies`
+--
+
+DROP TABLE IF EXISTS `actors_movies`;
+CREATE TABLE IF NOT EXISTS `actors_movies` (
+  `id_actors` int(11) NOT NULL,
+  `id_movies` int(11) NOT NULL,
+  `role` varchar(80) NOT NULL,
+  UNIQUE KEY `id_actors` (`id_actors`,`id_movies`),
+  KEY `id_movies` (`id_movies`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -87,6 +121,13 @@ INSERT INTO `phases` (`id`, `phase`) VALUES
 --
 -- Contraintes pour les tables déchargées
 --
+
+--
+-- Contraintes pour la table `actors_movies`
+--
+ALTER TABLE `actors_movies`
+  ADD CONSTRAINT `id_actor` FOREIGN KEY (`id_actors`) REFERENCES `actors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `id_movies` FOREIGN KEY (`id_movies`) REFERENCES `movies` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `movies`
