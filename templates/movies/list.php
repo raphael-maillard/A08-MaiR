@@ -41,7 +41,7 @@ echo '<div class="container mt-5 mb-5">';
             foreach ($connect->query($sql) as $item)       
             {
                 // At  everu loop in the table print that with the informations
-                echo ' <div class="col-lg-4 col-md-12 mb-4">';
+                echo ' <div class="col-lg-4 col-md-6 col-xs-12 mb-4">';
                     echo ' <div class="p-4 bg-white">';
                         echo ' <div class="d-flex flex-column">';
                             echo '<a class="thumbnail" href="index.php?show-movie&id='.$item['id'].'">';

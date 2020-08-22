@@ -7,19 +7,18 @@ if (!empty($_GET['id'])) {
 }
 
 // Prepare request sql 
-$statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase,  movies.created_at, movies.modified_at
-                                FROM phases 
-                                JOIN movies ON phases.id = movies.id_phase
-                                WHERE movies.id= ?');
+$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, actors.created_at
+                                FROM actors
+                                WHERE actors.id= ?');
 
 // Execute the request
 $statement->execute(array($id));
-$item = $statement->fetch();
+$item = $statement->fetch(PDO::FETCH_ASSOC);
 
 // Format the dates
-$item['release_date'] = date("d-m-Y", strtotime($item['release_date']));
+$item['dob'] = date("d-m-Y", strtotime($item['dob']));
 $item['created_at'] = date("d-m-Y", strtotime($item['created_at']));
-$item['modified_at'] = date("d-m-Y", strtotime($item['modified_at']));
+if (isset($item['modify_at']))$item['modify_at'] = date("d-m-Y", strtotime($item['modify_at']));
 
 // function to check
 function checkInput($data)
@@ -30,38 +29,60 @@ function checkInput($data)
     return $data;
 }
 
+// prepare the special request SQl for the foreach
+$movie_name = $connect->prepare('SELECT movies.name
+                                FROM actors
+                                JOIN actors_movies ON actors.id = actors_movies.id_actors
+                                JOIN movies ON actors_movies.id_movies = movies.id
+                                WHERE actors.id= ?');
+
+// Execute the request
+$movie_name->execute(array($id));
+$movie_name = $movie_name->fetchAll();
+
 ?>
 <div class="container admin">
     <div class="row">
         <div class="col-sm-6">
-            <h1><strong>Affiche de film </strong></h1>
+            <h1><strong>Fiche d'acteur</strong></h1>
             <br>
             <!-- Start the form to enter the information relative at the movie -->
             <form>
                 <!-- Start show the infomations -->
                 <div class="form-group">
-                    <label>Nom:</label><?php echo ' ' . $item['name'] ?>
+                    <label>Nom:</label><?php echo ' ' . $item['last_name'] ?>
                 </div>
                 <div class="form-group">
-                    <label>Date de sortie:</label><?php echo ' ' . $item['release_date'] ?>
+                    <label>Prénom:</label><?php echo ' ' . $item['first_name'] ?>
                 </div>
                 <div class="form-group">
-                    <label>Durée:</label><?php echo ' ' . $item['duration'] ?>
+                    <label>Date de naissance:</label><?php echo ' ' . $item['dob'] ?>
                 </div>
                 <div class="form-group">
-                    <label>Réalisateur:</label><?php echo ' ' . $item['director'] ?>
+                    <label>Présence dans le(s) film(s) : </label>
+                    <?php
+                    if(!empty($movie_name)){
+                        echo '<table class="table">';
+                         foreach ($movie_name as $row) 
+                        {
+                            echo '<tr><th scope="row"></th><td> ' . $row['name'] . ' </tr></td> ';
+                        }
+                        echo '</table>';}
+                        else 
+                        {
+                            echo 'Aucun film enregistré pour cette personne';
+                        }
+                    ?>
                 </div>
                 <div class="form-group">
-                    <label>Phase:</label><?php echo ' ' . $item['phase'] ?>
-                </div>
-                <div class="form-group">
-                    <label>Image:</label><?php echo ' ' . $item['image'] ?>
+                    <label>Nom de l'image:</label><?php echo ' ' . $item['image'] ?>
                 </div>
                 <div class="form-group">
                     <label>Date de création de la fiche:</label><?php echo ' ' . $item['created_at'] ?>
                 </div>
                 <div class="form-group">
-                    <label>Dernière modification : </label><?php echo ' ' . $item['modified_at'] ?>
+                    <label>Dernière modification : </label><?php if (!empty($item['modify_at'])) echo $item['modify_at'];
+                                                            else echo ' Aucune modification enregistrée' ?>
                 </div>
                 <!-- end show the infomations -->
 
@@ -73,12 +94,12 @@ function checkInput($data)
             <div class="thumbnail">
                 <div class="d-flex flex-column pt-4">
                     <!-- Show the image and link onclick to this -->
-                    <div><img class="img-fluid img-responsive" src="<?php echo ' ../A08-MaiR/uploads/' . $item['image'] . '" alt="Affiche du film ' . $item['name'] ?>"></div>
+                    <div><img class="img-fluid img-responsive" src="<?php echo ' uploads/' . $item['image'] . '" alt="Photo de ' . $item['last_name'] ?>"></div>
                 </div>
             </div>
         </div>
         <div class="form-group p-4">
-            <a class="btn btn-primary" href="index.php?list-movies">Retour</a>
+            <a class="btn btn-primary" href="index.php?list-actors">Retour</a>
             <!-- Must to be use balise php for use the variable id  -->
             <?php
             $id = $_GET['id'];

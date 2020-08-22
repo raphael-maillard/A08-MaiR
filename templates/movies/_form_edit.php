@@ -89,7 +89,7 @@ if (!empty($_GET['id'])) {
                 }
             }
         }
-        
+
         // If don't change the image, recovery currently image
         if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) {
             $statement = $connect->prepare('SELECT image  FROM movies WHERE movies.id= ?');
@@ -115,9 +115,7 @@ if (!empty($_GET['id'])) {
             print('<div class="alert alert-success" role="alert">');
             print('    <h4 class="alert-heading text-center">Film modifié avec succès !</h4>');
             print('</div>');
-        } 
-        else 
-        {
+        } else {
             print('<div class="alert alert-danger" role="alert">');
             print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas modifié !</h4>');
             print('</div>');
@@ -214,7 +212,7 @@ function checkInput($data)
             <div class="form-actions">
                 <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>
                     Modifier</button>
-                <a class="btn btn-primary" href="index.php?list"> <span class="glyphicon glyphicon-arrow-left"></span>
+                <a class="btn btn-primary" href="index.php?show-movie&id=<?php echo $id ?>"> <span class=" glyphicon glyphicon-arrow-left"></span>
                     Retour</a>
             </div>
         </form>
