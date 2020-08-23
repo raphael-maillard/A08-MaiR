@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3308
--- Généré le :  ven. 14 août 2020 à 12:18
+-- Généré le :  Dim 23 août 2020 à 18:57
 -- Version du serveur :  5.7.28
 -- Version de PHP :  7.3.12
 
@@ -39,7 +39,16 @@ CREATE TABLE IF NOT EXISTS `actors` (
   `modify_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `last_name` (`last_name`,`first_name`,`dob`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `actors`
+--
+
+INSERT INTO `actors` (`id`, `last_name`, `first_name`, `dob`, `image`, `created_at`, `modify_at`) VALUES
+(1, 'Downey', 'Robert (Jr.)', '1965-04-04', 'RobertDowneyJr.jpg', '2020-08-19 13:42:44', NULL),
+(2, 'Alexander\r\n', 'Jaimie\r\n', '1984-03-14', 'JaimieAlexander.jpg', '2020-08-19 16:25:28', NULL),
+(3, 'Bettany', 'Paul', '1971-05-27', 'PaulBettany.jpg', '2020-08-19 16:26:15', NULL);
 
 -- --------------------------------------------------------
 
@@ -55,6 +64,14 @@ CREATE TABLE IF NOT EXISTS `actors_movies` (
   UNIQUE KEY `id_actors` (`id_actors`,`id_movies`),
   KEY `id_movies` (`id_movies`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `actors_movies`
+--
+
+INSERT INTO `actors_movies` (`id_actors`, `id_movies`, `role`) VALUES
+(1, 1, 'Ironman'),
+(1, 4, 'Ironman');
 
 -- --------------------------------------------------------
 
