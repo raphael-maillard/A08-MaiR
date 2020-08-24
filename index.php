@@ -83,19 +83,24 @@
             $nameImage = $nameImage->fetch();
             if(!empty($nameImage['image']))
             {
-                $path="./uploads/actors/".$nameImage['image'];   
+                $path="./uploads/actors/".$nameImage['image']; 
                 unlink($path);
+                $successImg = unlink($path);
             }
             $delete->execute(array($id));
             $success =$delete->execute(array($id)); 
            
             // Message the delete agree
-            if($success)
+            if($success && $successImg)
             {
                 print('<div class="alert alert-success" role="alert">');
-                print('<h2 class="alert-heading text-center">L\'acteur est éffacé!</h2>');
+                print('<h2 class="alert-heading text-center">L\'acteur est éffacé! Correctement</h2>');
                 print('</div>');
             }
+        }
+
+        elseif (isset($_GET['edit-actors']) && isset($_GET['id'])) {
+            include './templates/actors/_form_edit.php';
         }
         
 

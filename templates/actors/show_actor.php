@@ -6,8 +6,9 @@ if (!empty($_GET['id'])) {
 }
 
 // Prepare request sql 
-$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, actors.created_at
+$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, actors.created_at, actors_movies.role
                                 FROM actors
+                                JOIN actors_movies ON actors.id = actors_movies.id_actors
                                 WHERE actors.id= ?');
 
 // Execute the request
@@ -74,6 +75,9 @@ $movie_name = $movie_name->fetchAll();
                     ?>
                 </div>
                 <div class="form-group">
+                    <label>Dans le rôle de </label><?php echo ' ' . $item['role'] ?>
+                </div>
+                <div class="form-group">
                     <label>Nom de l'image:</label><?php echo ' ' . $item['image'] ?>
                 </div>
                 <div class="form-group">
@@ -102,7 +106,7 @@ $movie_name = $movie_name->fetchAll();
             <!-- Must to be use balise php for use the variable id  -->
             <?php
             $id = $_GET['id'];
-            echo '<a class="btn btn-warning" href="index.php?edit-movies&id=' . $id . '"> Modifier</a>';
+            echo '<a class="btn btn-warning" href="index.php?edit-actors&id=' . $id . '"> Modifier</a>';
             ?>
             <!-- btn to show the dialog box  -->
             <a class="btn btn-danger" data-toggle="modal" data-target="#del-actor">Supprimer</a>
