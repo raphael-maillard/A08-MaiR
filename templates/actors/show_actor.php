@@ -1,6 +1,5 @@
 <!-- show -->
 <?php
-
 // Recovery the id  and push in variable
 if (!empty($_GET['id'])) {
     $id = checkInput($_GET['id']);
@@ -94,7 +93,7 @@ $movie_name = $movie_name->fetchAll();
             <div class="thumbnail">
                 <div class="d-flex flex-column pt-4">
                     <!-- Show the image and link onclick to this -->
-                    <div><img class="img-fluid img-responsive" src="<?php echo ' uploads/' . $item['image'] . '" alt="Photo de ' . $item['last_name'] ?>"></div>
+                    <div><img class="img-fluid img-responsive" src="<?php echo ' uploads/actors/' . $item['image'] . '" alt="Photo de ' . $item['last_name'] ?>"></div>
                 </div>
             </div>
         </div>
@@ -106,12 +105,12 @@ $movie_name = $movie_name->fetchAll();
             echo '<a class="btn btn-warning" href="index.php?edit-movies&id=' . $id . '"> Modifier</a>';
             ?>
             <!-- btn to show the dialog box  -->
-            <a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal">Supprimer</a>
+            <a class="btn btn-danger" data-toggle="modal" data-target="#del-actor">Supprimer</a>
         </div>
 
         <!-- Modal to ask if you are sure to delete the item -->
-        <form action="index.php?list" method="POST">
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form action="index.php?list-actors" method="POST">
+            <div class="modal fade" id="del-actor" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -120,13 +119,13 @@ $movie_name = $movie_name->fetchAll();
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div>
-                                <input type="hidden" name="id-del" value="<?php echo $_GET['id'] ?>">
+                                <input type="hidden" name="id-del-actors" value="<?php echo $_GET['id'] ?>">
                             </div>
                         </div>
                         <div class="modal-body">Voulez-vous vraiment supprimer ce film de la liste ?</div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                            <input type="submit" value="Supprimer" href="index.php?list" class="btn btn-danger">
+                            <input type="submit" value="Supprimer" href="index.php?list-actors" class="btn btn-danger">
                         </div>
                     </div>
                 </div>

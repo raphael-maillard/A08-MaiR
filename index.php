@@ -44,7 +44,7 @@
             $delete = $connect->prepare("DELETE FROM movies WHERE id= ?");
             // Take the ID inject in request and delete the line
             $delete->execute(array($id));
-            return $delete->execute->fetchAll();
+            // return $delete->execute->fetchAll();
             // Message the delete agree
             print('<div class="alert alert-success" role="alert">');
             print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
@@ -57,7 +57,7 @@
         }
 
         // If you want check the list of actors
-        elseif (isset($_GET["list-actors"]) and !isset($_GET['id'])) {
+        elseif (isset($_GET["list-actors"]) and !isset($_GET['id']) and !isset($_POST['id-del-actors'])) {
             include './templates/actors/list_actors.php';
         }
 
@@ -70,6 +70,34 @@
         elseif (isset($_GET['id']) && isset($_GET['show-actor'])) {
             include './templates/actors/show_actor.php';
         }
+
+        // If you want to delete the movie the traitement is here
+        elseif (isset($_GET['list-actors']) && isset($_POST['id-del-actors'])) {
+            // recover the ID
+            $id = ($_POST['id-del-actors']);
+            // Prepare the request
+            $delete = $connect->prepare("DELETE FROM actors WHERE id= ?");
+            $nameImage = $connect->prepare("SELECT image FROM actors WHERE id= ?");
+            // Take the ID inject in request and delete the line
+            $nameImage->execute(array($id));
+            $nameImage = $nameImage->fetch();
+            if(!empty($nameImage['image']))
+            {
+                $path="./uploads/actors/".$nameImage['image'];   
+                unlink($path);
+            }
+            $delete->execute(array($id));
+            $success =$delete->execute(array($id)); 
+           
+            // Message the delete agree
+            if($success)
+            {
+                print('<div class="alert alert-success" role="alert">');
+                print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
+                print('</div>');
+            }
+        }
+        
 
         // Else show the home page
         else {

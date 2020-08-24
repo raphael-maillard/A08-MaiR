@@ -102,8 +102,8 @@ if (!empty($_GET['id'])) {
         if ($isSuccess == true && $isUploadSuccess == true) {
             //Init the variable 
             $query = $connect->prepare("UPDATE movies 
-                                            SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
-                                            WHERE movies.id=$id");
+                                        SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
+                                        WHERE movies.id=$id");
             $query->execute(array(
                 "name" => $name,
                 "date" => $date,

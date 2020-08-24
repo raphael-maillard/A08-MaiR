@@ -1,4 +1,5 @@
 <?php // Init the variable to count howmany line(s)
+
 $count = $connect->prepare("SELECT COUNT(*) AS row FROM actors");
 // Exec the request
 $count->execute();
@@ -38,7 +39,7 @@ foreach ($connect->query($sql) as $item) {
     echo ' <div class="p-4 bg-white">';
     echo ' <div class="d-flex flex-column">';
     echo '<a class="thumbnail" href="index.php?show-actor&id=' . $item['id'] . '">';
-    echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/' . $item['image'] . '" alt = "Portrait de l\'acteur ' . $item['last_name'], $item['first_name']  . '" ></div></a>';
+    echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/actors/' . $item['image'] . '" alt = "Portrait de l\'acteur ' . $item['last_name'], $item['first_name']  . '" ></div></a>';
 
     // increment image
     $image++;
