@@ -93,7 +93,7 @@
             if($success)
             {
                 print('<div class="alert alert-success" role="alert">');
-                print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
+                print('<h2 class="alert-heading text-center">L\'acteur est éffacé!</h2>');
                 print('</div>');
             }
         }
