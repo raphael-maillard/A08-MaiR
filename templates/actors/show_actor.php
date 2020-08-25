@@ -11,23 +11,27 @@ $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first
                                 JOIN actors_movies ON actors.id = actors_movies.id_actors
                                 WHERE actors.id= ?');
 
+
 // Execute the request
 $statement->execute(array($id));
 $item = $statement->fetch(PDO::FETCH_ASSOC);
+
+// Condition if the actor haven't role in the movies
+if($item==false)
+{
+    $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, created_at
+                                    FROM actors
+                                    WHERE actors.id= ?');
+
+// Execute the request
+$statement->execute(array($id));
+$item = $statement->fetch(PDO::FETCH_ASSOC);
+}
 
 // Format the dates
 $item['dob'] = date("d-m-Y", strtotime($item['dob']));
 $item['created_at'] = date("d-m-Y", strtotime($item['created_at']));
 if (isset($item['modify_at']))$item['modify_at'] = date("d-m-Y", strtotime($item['modify_at']));
-
-// function to check
-function checkInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 
 // prepare the special request SQl for the foreach
 $movie_name = $connect->prepare('SELECT movies.name
@@ -39,6 +43,15 @@ $movie_name = $connect->prepare('SELECT movies.name
 // Execute the request
 $movie_name->execute(array($id));
 $movie_name = $movie_name->fetchAll();
+
+// function to check
+function checkInput($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 
 ?>
 <div class="container admin">
@@ -75,7 +88,11 @@ $movie_name = $movie_name->fetchAll();
                     ?>
                 </div>
                 <div class="form-group">
-                    <label>Dans le rôle de </label><?php echo ' ' . $item['role'] ?>
+                    <label>Dans le rôle de </label>
+                    <?php 
+                    if(isset($item['role'])) echo ' ' . $item['role'];
+                    else echo 'Aucun rôle renseigné.';
+                    ?>
                 </div>
                 <div class="form-group">
                     <label>Nom de l'image:</label><?php echo ' ' . $item['image'] ?>

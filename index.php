@@ -37,7 +37,7 @@
         }
 
         // If you want to delete the movie the traitement is here
-        elseif (isset($_GET['list']) && !empty($_POST['id-del'])) {
+        elseif (isset($_GET['list-movies']) && !empty($_POST['id-del'])) {
             // recover the ID
             $id = ($_POST['id-del']);
             // Prepare the request

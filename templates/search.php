@@ -24,7 +24,7 @@ if(!empty($_POST['search']))
     //  IF he empty write on screen 
     if(empty($result))
     {
-        echo'<h1 class="text-center">Aucun résultat trouvé dans la partie film</h1>';
+        echo'<h1 class="text-center">Aucun film trouvé</h1>';
     }
     // So do that
     else
@@ -112,7 +112,7 @@ if(!empty($_POST['search']))
             echo ' <div class="col-lg-4 col-md-12 mb-4">';
                 echo ' <div class="p-4 bg-white">';
                     echo ' <div class="d-flex flex-column">';
-                        echo '<a class="thumbnail" href="index.php?show-movie&id='.$result['id'].'">';
+                        echo '<a class="thumbnail" href="index.php?show-actor&id='.$result['id'].'">';
                         echo ' <div><img class="img-responsive img-thumbnail" src="./uploads/actors/' . $result['image'] . '" alt = "Portrait de l\'acteur ' . $result['last_name'], $result['first_name']  . '" ></div></a>';
                         $image++;
                         echo ' <div class="d-flex flex-column">';

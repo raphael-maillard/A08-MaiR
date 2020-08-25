@@ -3,11 +3,6 @@
 // Init variable to skip error
 $first_Name_Error = $last_Name_Error = $roleError = $dateError = $imageError = $first_name = $last_name = $role = $dob = $date = "";
 
-// INSERT INTO `actors` (`id`, `last_name`, `first_name`, `dob`, `image`, `created_at`, `modify_at`) VALUES (NULL, 'Downey', 'Robert (Jr.)', '1965-04-04', NULL, CURRENT_TIMESTAMP, NULL); 
-
-
-var_dump($_POST);
-
 if (!empty($_POST) ) {
     $first_name         = checkInput($_POST['first_name']);
     $last_name          = checkInput($_POST['last_name']);
