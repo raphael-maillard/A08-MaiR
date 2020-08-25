@@ -99,7 +99,8 @@ if (!empty($_GET['id'])) {
             $isUploadSuccess = true;
         }
 
-        if ($isSuccess == true && $isUploadSuccess == true) {
+        if ($isSuccess == true && $isUploadSuccess == true) 
+        {
             //Init the variable 
             $query = $connect->prepare("UPDATE movies 
                                         SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
@@ -122,7 +123,7 @@ if (!empty($_GET['id'])) {
             echo $imageError;
         }
     }
-    //make request and execute with the good id 
+    //make request and execute with the good id, to keep the information and inject in the form
     $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
                                     FROM phases 
                                     JOIN movies ON phases.id = movies.id_phase

@@ -103,7 +103,6 @@ if (!empty($_POST) ) {
         // lastid_insert
             if ($sql and !empty($_POST['movie_name']) )
         {
-            echo "c'est rentré";
             foreach ($_POST['movie_name'] as $movie)
             {
                 $sth = $connect->prepare("INSERT INTO `actors_movies` (`id_actors`, `id_movies`, `role`) VALUES (:id, :movie, :role)");

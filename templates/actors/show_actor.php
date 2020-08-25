@@ -6,7 +6,7 @@ if (!empty($_GET['id'])) {
 }
 
 // Prepare request sql 
-$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, actors.created_at, actors_movies.role
+$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.dob, actors.image, actors.created_at, actors_movies.role
                                 FROM actors
                                 JOIN actors_movies ON actors.id = actors_movies.id_actors
                                 WHERE actors.id= ?');
@@ -54,7 +54,7 @@ function checkInput($data)
 }
 
 ?>
-<div class="container admin">
+<div class="container">
     <div class="row">
         <div class="col-sm-6">
             <h1><strong>Fiche d'acteur</strong></h1>
