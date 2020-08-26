@@ -60,12 +60,14 @@ if (!empty($_GET['id']))
                         <p class="alert-heading">Insérer une image</p>
                         </div>';
         }    
-        else {
+		else 
+		{
             // Adapt the parameter
             $isUploadSuccess = true;
 
             // Check the extension file
-            if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
+			if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
+			{
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
                             </div>';
@@ -73,7 +75,8 @@ if (!empty($_GET['id']))
             }
 
             // Check if the file don't exist
-            if (file_exists($imagePath)) {
+			if (file_exists($imagePath)) 
+			{
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier existe déjà</p>
                             </div>';
@@ -81,7 +84,8 @@ if (!empty($_GET['id']))
             }
 
             // Check if the file respect the maximum size
-            if ($_FILES['image']["size"] > 500000) {
+			if ($_FILES['image']["size"] > 500000) 
+			{
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                             </div>';
@@ -179,35 +183,35 @@ if (!empty($_GET['id']))
 	$movie = [];
 	foreach($item as $item)
 	{
-	$movie_id[]= $item['movie_id'];
-	$movie[]= $item['name'];
+		$movie_id[]= $item['movie_id'];
+		$movie[]= $item['name'];
 	}
 
     // Condition if the actor haven't role in the movies
     if($item==false)
     {
-    $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, created_at
-									FROM actors
-									WHERE actors.id= ?');
+		$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, created_at
+										FROM actors
+										WHERE actors.id= ?');
 
-    // Execute the request
-    $statement->execute(array($id));
-    $item = $statement->fetch(PDO::FETCH_ASSOC);
+		// Execute the request
+		$statement->execute(array($id));
+		$item = $statement->fetch(PDO::FETCH_ASSOC);
 
-    $last_name= $item['last_name'];
-    $first_name= $item['first_name'];
-    $dob= $item['dob'];
-    $image= $item['image'];
+		$last_name= $item['last_name'];
+		$first_name= $item['first_name'];
+		$dob= $item['dob'];
+		$image= $item['image'];
     }
 }
-    // Function to check the data in the form
-    function checkInput($data)
-    {
-        $data = trim($data);
-        $data = stripslashes($data);
-        $data = htmlspecialchars($data);
-        return $data;
-	}
+// Function to check the data in the form
+function checkInput($data)
+{
+	$data = trim($data);
+	$data = stripslashes($data);
+	$data = htmlspecialchars($data);
+	return $data;
+}
 
 ?>
 
@@ -243,8 +247,6 @@ if (!empty($_GET['id']))
 					$array = $connect->prepare('SELECT movies.id, movies.name FROM movies');
 					$array->execute();
 					$array = $array->fetchAll(PDO::FETCH_ASSOC);
-
-					$null=null;
 
                     // foreach read data
 					foreach ( $array as $row) 
