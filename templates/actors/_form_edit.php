@@ -1,11 +1,13 @@
 <?php 
 
 // Init variable to skip error
-$first_Name_Error = $last_Name_Error = $roleError = $dateError = $imageError = $first_name = $last_name = $role = $dob = $date = "";
+$first_Name_Error = $last_Name_Error = $roleError = $dateError = $imageError = $first_name = $last_name = $role = $dob = "";
 
 if (!empty($_GET['id'])) {
 
-    $id = checkInput($_GET['id']);
+	$id = checkInput($_GET['id']);
+	
+	var_dump($_POST);
 
     if (!empty($_POST) ) {
         $first_name         = checkInput($_POST['first_name']);
@@ -92,7 +94,8 @@ if (!empty($_GET['id'])) {
         }
 
         // If don't change the image, recovery currently image
-        if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) {
+		if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) 
+		{
             $statement = $connect->prepare('SELECT image  FROM movies WHERE movies.id= ?');
             $statement->execute(array($id));
             $item = $statement->fetch();
@@ -119,8 +122,8 @@ if (!empty($_GET['id'])) {
                 foreach ($_POST['movie_name'] as $movie)
                 {
                     $sth = $connect->prepare("UPDATE actors_movies 
-                                            SET id_movies=:movie, role=:role 
-                                            WHERE id_actors=:id");
+                                              SET id_movies=:movie, role=:role 
+                                              WHERE id_actors=:id");
                     $sth->execute(array
                     ( 
                                     "id"=>$id,
@@ -146,7 +149,7 @@ if (!empty($_GET['id'])) {
     }
 
     // Prepare request sql 
-    $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.dob, actors.image, actors.created_at, actors_movies.role, movies.name
+    $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.dob, actors.image, actors.created_at, actors_movies.role, movies.id as movie_id ,movies.name
                                     FROM actors
                                     JOIN actors_movies ON actors.id = actors_movies.id_actors
                                     JOIN movies ON actors_movies.id_movies = movies.id
@@ -154,25 +157,26 @@ if (!empty($_GET['id'])) {
 
     // Execute the request
     $statement->execute(array($id));
-    $item = $statement->fetch(PDO::FETCH_ASSOC);
+    $item = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-    // Define the variables to complete the form
-    $last_name= $item['last_name'];
-    $first_name= $item['first_name'];
-    $dob= $item['dob'];
-    // $movie= $item['name'];
-    $role= $item['role'];
-    $image= $item['image'];
-
-    var_dump($item);
-    
+	// Define the variables to complete the form
+	$last_name= $item[0]['last_name'];
+    $first_name= $item[0]['first_name'];
+	$dob= $item[0]['dob'];
+	$role= $item[0]['role'];
+    $image= $item[0]['image'];
+	foreach($item as $item)
+	{
+	$movie_id[]= $item['movie_id'];
+	$movie[]= $item['name'];
+	}
 
     // Condition if the actor haven't role in the movies
     if($item==false)
     {
     $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, created_at
-        FROM actors
-        WHERE actors.id= ?');
+									FROM actors
+									WHERE actors.id= ?');
 
     // Execute the request
     $statement->execute(array($id));
@@ -184,7 +188,6 @@ if (!empty($_GET['id'])) {
     $image= $item['image'];
     }
 }
-
     // Function to check the data in the form
     function checkInput($data)
     {
@@ -192,7 +195,7 @@ if (!empty($_GET['id'])) {
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
         return $data;
-    }
+	}
 
 ?>
 
@@ -215,19 +218,35 @@ if (!empty($_GET['id'])) {
                 <span class="help-inline"><?php echo $last_Name_Error; ?></span>
             </div>
             <div class="form-group">
-                <label for="date">Date de naissance :</label>
-                <input type="date" class="form-control" id="date" name="date" value="<?php echo $dob; ?>">
+                <label for="dob">Date de naissance :</label>
+                <input type="dob" class="form-control" id="dob" name="dob" value="<?php echo $dob; ?>">
                 <!-- If we detect problem we send a message adapt-->
                 <span class="help-inline"><?php echo $dateError; ?></span>
             </div>
             <div class="form-group">
                 <label for="movie_name">A joué dans le film : ( Utilisé la touche Ctrl pour sélectionner plusieurs films )</label>
                 <select class="custom-select" name="movie_name[]" id="movie_name" multiple class="chosen-select">
-                    <?php
-                    // foreach to show the select phase and recovery the id to send the data
-                    foreach ($connect->query('SELECT movies.id, movies.name FROM movies') as $row) {
-                        print('<option value="' . $row['id'] . '">' . $row['name'] . '</option>');
-                    }
+					<?php
+					// Prepare and execute the request SQL
+					$array = $connect->prepare('SELECT movies.id, movies.name FROM movies');
+					$array->execute();
+					$array = $array->fetchAll(PDO::FETCH_ASSOC);
+
+                    // foreach read data
+					foreach ( $array as $row) 
+					{
+						// compare the the id of the movies with the id actors_movies to print select or not
+						if(in_array($row['id'],$movie_id))
+						{
+							print('<option value="' . $row['id'] . '" selected>' . $row['name'] . '</option>');
+						}
+						else
+						{
+							print('<option value="' . $row['id'] . '">' . $row['name'] . '</option>');
+							$result=array_key_exists($row['name'],$movie);
+							var_dump($movie);
+						}
+					}
                     ?>
                 </select>
 
@@ -240,8 +259,15 @@ if (!empty($_GET['id'])) {
                 <label class="custom-file-label" for="customFile">Insérer une photo de cette personne</label>
                 <!-- If we detect problem we send a message adapt-->
                 <span class="help-inline"><?php echo $imageError; ?></span>
-            </div>
-        </form>
+			</div>
+			<br><br>
+			<div class="form-actions">
+				<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>
+					Modifier</button>
+				<a class="btn btn-primary" href="index.php?show-movie&id=<?php echo $id ?>"> <span class=" glyphicon glyphicon-arrow-left"></span>
+					Retour</a>
+			</div>    
+		</form>
     </div>
 </div>
-            
+    
