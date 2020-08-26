@@ -3,13 +3,13 @@
 // Init variable to skip error
 $first_Name_Error = $last_Name_Error = $roleError = $dateError = $imageError = $first_name = $last_name = $role = $dob = "";
 
-if (!empty($_GET['id'])) {
+if (!empty($_GET['id'])) 
+{
 
 	$id = checkInput($_GET['id']);
-	
-	var_dump($_POST);
 
-    if (!empty($_POST) ) {
+	if (!empty($_POST) ) 
+	{
         $first_name         = checkInput($_POST['first_name']);
         $last_name          = checkInput($_POST['last_name']);
         $dob                = checkInput($_POST['dob']); 
@@ -17,41 +17,48 @@ if (!empty($_GET['id'])) {
         $image              = checkInput($_FILES['image']['name']);
         $imagePath          = './uploads/actors/' . basename($image);
         $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
-        $movie              = $_POST['movie_name'];
+		if(isset($_POST['movie_name']))
+		{
+		$movie              = $_POST['movie_name'];
+		}
         $isSuccess          = true;
         $isUploadSuccess    = false;
 
-        if (empty($first_name)) {
+		if (empty($first_name)) 
+		{
             $first_Name_Error = '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez saisir un Prénom</p>
                                 </div>';
             $isSuccess = false;
         }
-        if (empty($last_name)) {
+		if (empty($last_name)) 
+		{
             $last_Name_Error = '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez saisir un Nom</p>
                                 </div>';
             $isSuccess = false;
         }
-        if (empty($dob)) {
+		if (empty($dob)) 
+		{
             $dateError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez saisir la date de naissance</p>
                             </div>';
             $isSuccess = false;
         }
 
-        if (empty($role)) {
+		if (empty($role)) 
+		{
             $roleError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez saisir le rôle joué</p>
                             </div>';
             $isSuccess = false;
         }
 
-        if (empty($image)) {
+		if (empty($image)) 
+		{
             $imageError = '<div class="alert alert-warning" role="alert">
                         <p class="alert-heading">Insérer une image</p>
                         </div>';
-            $isSuccess = false;
         }    
         else {
             // Adapt the parameter
@@ -96,11 +103,11 @@ if (!empty($_GET['id'])) {
         // If don't change the image, recovery currently image
 		if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) 
 		{
-            $statement = $connect->prepare('SELECT image  FROM movies WHERE movies.id= ?');
+            $statement = $connect->prepare('SELECT image  FROM actors WHERE actors.id= ?');
             $statement->execute(array($id));
             $item = $statement->fetch();
             $image = $item['image'];
-            $isUploadSuccess = true;
+			$isUploadSuccess = true;
         }
         // If all signals are green let'sgo start the update proccess
         if ($isSuccess == true && $isUploadSuccess == true) 
@@ -108,28 +115,32 @@ if (!empty($_GET['id'])) {
             // UPDATE `actors` SET `modify_at` = UTC_TIMESTAMP() WHERE `actors`.`id` = 2;
             //Init the variable 
             $update = $connect->prepare("UPDATE actors 
-                                        SET last_name=:lastname, first_name=:first_name, dob=:dob, image=:image, modified_at=CURRENT_TIMESTAMP 
-                                        WHERE movies.id=$id");
+                                        SET `last_name`=:last_name, `first_name`=:first_name, `dob`=:dob, `modify_at`=CURRENT_TIMESTAMP 
+										WHERE actors.id=$id");
             $update->execute(array(
                 "last_name" => $last_name,
                 "first_name" => $first_name,
                 "dob" => $dob,
-                "image" => $image
-            ));
+			));
+
+			var_dump ($_POST['movie_name']);
+
+
             // Check if update the table actor_movie
-            if (!empty($_POST['movie_name']) && !empty($_POST['role']) )
+            if (!empty($_POST['movie_name']) && !empty($_POST['role']))
             {
                 foreach ($_POST['movie_name'] as $movie)
                 {
-                    $sth = $connect->prepare("UPDATE actors_movies 
-                                              SET id_movies=:movie, role=:role 
-                                              WHERE id_actors=:id");
-                    $sth->execute(array
-                    ( 
-                                    "id"=>$id,
-                                    "movie"=>$movie,
-                                    "role"=>$role
-                    ));
+					if($movie)
+					{
+						$sth = $connect->prepare("INSERT INTO `actors_movies` (`id_actors`, `id_movies`, `role`) VALUES (:id, :movie, :role)");
+						$sth->execute(array
+						( 
+										"id"=>$id,
+										"movie"=>$movie,
+										"role"=>$role
+						));
+					}
                 }
             }
             else 
@@ -148,7 +159,7 @@ if (!empty($_GET['id'])) {
         }
     }
 
-    // Prepare request sql 
+    // Prepare request sql to show the informations in the form
     $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.dob, actors.image, actors.created_at, actors_movies.role, movies.id as movie_id ,movies.name
                                     FROM actors
                                     JOIN actors_movies ON actors.id = actors_movies.id_actors
@@ -164,7 +175,8 @@ if (!empty($_GET['id'])) {
     $first_name= $item[0]['first_name'];
 	$dob= $item[0]['dob'];
 	$role= $item[0]['role'];
-    $image= $item[0]['image'];
+	$image= $item[0]['image'];
+	$movie = [];
 	foreach($item as $item)
 	{
 	$movie_id[]= $item['movie_id'];
@@ -232,25 +244,26 @@ if (!empty($_GET['id'])) {
 					$array->execute();
 					$array = $array->fetchAll(PDO::FETCH_ASSOC);
 
+					$null=null;
+
                     // foreach read data
 					foreach ( $array as $row) 
 					{
 						// compare the the id of the movies with the id actors_movies to print select or not
 						if(in_array($row['id'],$movie_id))
 						{
-							print('<option value="' . $row['id'] . '" selected>' . $row['name'] . '</option>');
+							print('<option value="" selected>' . $row['name'] . '</option>');
 						}
 						else
 						{
 							print('<option value="' . $row['id'] . '">' . $row['name'] . '</option>');
 							$result=array_key_exists($row['name'],$movie);
-							var_dump($movie);
 						}
 					}
                     ?>
                 </select>
 
-                <label for="category">Dans le role de :</label>
+                <label for="role">Dans le role de :</label>
                 <input type="text" class="form-control" id="role" name="role" placeholder="indiquer le rôle " value="<?php echo $role; ?>"></input>
                 <span class="help-inline"><?php echo $roleError; ?></span>
             </div>
@@ -264,7 +277,7 @@ if (!empty($_GET['id'])) {
 			<div class="form-actions">
 				<button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-pencil"></span>
 					Modifier</button>
-				<a class="btn btn-primary" href="index.php?show-movie&id=<?php echo $id ?>"> <span class=" glyphicon glyphicon-arrow-left"></span>
+				<a class="btn btn-primary" href="index.php?show-actor&id=<?php echo $id ?>"> <span class=" glyphicon glyphicon-arrow-left"></span>
 					Retour</a>
 			</div>    
 		</form>
