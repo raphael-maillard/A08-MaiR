@@ -14,6 +14,7 @@
 
     <section>
         <?php
+
         // Condition show the good page in function what you want
 
         // If you search a movies you arrived here
@@ -27,7 +28,7 @@
         }
 
         // If you want check the list of movies
-        elseif (isset($_GET["list-movies"]) and !isset($_GET['id'])) {
+        elseif (isset($_GET["list-movies"]) and !isset($_GET['id']) && !isset($_POST['id-del'])) {
             include './templates/movies/list.php';
         }
 
@@ -37,7 +38,7 @@
         }
 
         // If you want to delete the movie the traitement is here
-        elseif (isset($_GET['list-movies']) && !empty($_POST['id-del'])) {
+        elseif (isset($_GET['list-movies']) && isset($_POST['id-del'])) {
             // recover the ID
             $id = ($_POST['id-del']);
             // Prepare the request
@@ -47,7 +48,7 @@
             // return $delete->execute->fetchAll();
             // Message the delete agree
             print('<div class="alert alert-success" role="alert">');
-            print('<h2 class="alert-heading text-center">Le film est effacé !</h2>');
+            print('<h2 class="alert-heading text-center">Le film est effacé avec succès !</h2>');
             print('</div>');
         }
 

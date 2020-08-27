@@ -84,13 +84,24 @@ if (!empty($_GET['id']))
             }
 
             // Check if the file respect the maximum size
-			if ($_FILES['image']["size"] > 500000) 
+			if ($_FILES['image']["size"] > 30000) 
 			{
                 $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                             </div>';
                 $isUploadSuccess = false;
             }
+
+            // Check if the folder "Upload" exist
+            if (!file_exists("./uploaded")){
+                mkdir("./uploaded");
+            }
+
+            // Check if the folder "actors" exist
+            if (!file_exists("./uploaded/actors")){
+                mkdir("./uploaded/actors");
+            }
+            
             // If not problem check if the move is okay
             if ($isUploadSuccess) 
             {
@@ -105,13 +116,14 @@ if (!empty($_GET['id']))
         }
 
         // If don't change the image, recovery currently image
-		if (empty($_FILES['image']['name'] && $isUploadSuccess == false)) 
+		if (isset($_FILES['image']['name']) && $isUploadSuccess == false) 
 		{
             $statement = $connect->prepare('SELECT image  FROM actors WHERE actors.id= ?');
             $statement->execute(array($id));
             $item = $statement->fetch();
             $image = $item['image'];
-			$isUploadSuccess = true;
+            $isUploadSuccess = true;
+            $imageError="";
         }
         // If all signals are green let'sgo start the update proccess
         if ($isSuccess == true && $isUploadSuccess == true) 
@@ -119,16 +131,14 @@ if (!empty($_GET['id']))
             // UPDATE `actors` SET `modify_at` = UTC_TIMESTAMP() WHERE `actors`.`id` = 2;
             //Init the variable 
             $update = $connect->prepare("UPDATE actors 
-                                        SET `last_name`=:last_name, `first_name`=:first_name, `dob`=:dob, `modify_at`=CURRENT_TIMESTAMP 
+                                        SET `last_name`=:last_name, `first_name`=:first_name, `dob`=:dob, `image`=:image, `modify_at`=CURRENT_TIMESTAMP 
 										WHERE actors.id=$id");
             $update->execute(array(
                 "last_name" => $last_name,
                 "first_name" => $first_name,
                 "dob" => $dob,
+                "image" => $image
 			));
-
-			var_dump ($_POST['movie_name']);
-
 
             // Check if update the table actor_movie
             if (!empty($_POST['movie_name']) && !empty($_POST['role']))
@@ -146,6 +156,9 @@ if (!empty($_GET['id']))
 						));
 					}
                 }
+                print('<div class="alert alert-success" role="alert">');
+                print('    <h4 class="alert-heading text-center">Personne modifiée avec succès !</h4>');
+                print('</div>');
             }
             else 
             {
@@ -271,7 +284,7 @@ function checkInput($data)
             </div>
             <div class="custom-file">
                 <input type="file" class="custom-file-input" id="customFile" name="image">
-                <label class="custom-file-label" for="customFile">Insérer une photo de cette personne</label>
+                <label class="custom-file-label" for="customFile">Insérer une photo de cette personne (Optionnel)</label>
                 <!-- If we detect problem we send a message adapt-->
                 <span class="help-inline"><?php echo $imageError; ?></span>
 			</div>

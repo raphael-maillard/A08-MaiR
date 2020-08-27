@@ -89,7 +89,7 @@ function checkInput($data)
         </div>
 
         <!-- Modal to ask if you are sure to delete the item -->
-        <form action="index.php?list" method="POST">
+        <form action="index.php?list-movies" method="POST">
             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -105,10 +105,55 @@ function checkInput($data)
                         <div class="modal-body">Voulez-vous vraiment supprimer ce film de la liste ?</div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-                            <input type="submit" value="Supprimer" href="index.php?list" class="btn btn-danger">
+                            <input type="submit" value="Supprimer" href="index.php?list-movies" class="btn btn-danger">
                         </div>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+
+<h2 class="text-center">Personnes ayants jouées dans ce film</h2>
+<table class="table table-hover">
+  <thead class="">
+    <tr>
+      <th scope="col">Prenom</th>
+      <th scope="col">Nom</th>
+      <th scope="col">Role</th>
+    </tr>
+  </thead>
+  <tbody>
+    <?php
+    // Check the id
+    if (!empty($_GET['id'])) 
+    {
+        $id = checkInput($_GET['id']);
+    }
+    //  Prepare the request to check who lpayin the movie
+    $request = $connect->prepare("SELECT actors_movies.id_actors, actors_movies.id_movies, actors_movies.role, actors.last_name, actors.first_name, actors.id as id_actors
+                                FROM actors_movies
+                                JOIN actors ON actors_movies.id_actors = actors.id
+                                WHERE actors_movies.id_movies= ?");
+    $request->execute(array($id));
+    $sql = $request->fetchAll(PDO::FETCH_ASSOC);
+
+    if(!empty($sql))
+    {
+            // Make the loop and read the array and print the table
+        foreach ($sql as $row)
+        {
+            echo "<tr scope=\"row\" class=\"alert alert-primary\">";
+            echo "  <td><a class=\"alert-link\" href=\"index.php?show-actor&id=". $row['id_actors'] . "\" >".$row['first_name']."</td>";
+            echo "  <td><a class=\"alert-link\" href=\"index.php?show-actor&id=". $row['id_actors'] . "\" >".$row['last_name']."</td>";
+            echo "  <td><a class=\"alert-link\" href=\"index.php?show-actor&id=". $row['id_actors'] . "\" >".$row['role']."</td>";
+            echo "</tr>";       
+        }
+    }
+    else
+    {        
+        echo '<h2 class="text-center">Aucun résultat trouvé </h2>';
+    }
+
+
+    ?>
+</table>

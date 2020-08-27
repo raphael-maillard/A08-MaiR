@@ -18,7 +18,6 @@ $image = 0;
 
 // When you draw the div
 if ($image == 0)
-
 // Init container of gallery
 {
     echo '<div class="container mt-5 mb-5">';
@@ -29,11 +28,13 @@ echo ' <h1> Liste des acteurs</h1><br>';
 echo '</div>';
 
 // init traiment for items
-if ($image % 3 == 0) {
+if ($image % 3 == 0) 
+{
     echo ' <div class="row">';
 }
 // make the request and read it
-foreach ($connect->query($sql) as $item) {
+foreach ($connect->query($sql) as $item) 
+{
     // At  every loop in the table print that with the informations
     echo ' <div class="col-lg-4 col-md-6 col-xs-12 mb-4">';
     echo ' <div class="p-4 bg-white">';
@@ -56,12 +57,15 @@ foreach ($connect->query($sql) as $item) {
 }
 
 // when you close the div and reinitialise the variable image
-if ($image % 3 == 0) {
+if ($image % 3 == 0) 
+{
     echo ' </div>';
     $image = 0;
 }
 
 // When readout close the container
-if ($row == $image) {
+if ($row == $image) 
+{
     echo '</div>';
-} ?>
+} 
+?>
