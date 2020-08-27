@@ -122,6 +122,18 @@
             echo '<h1 class="h1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
         }
 
+
+
+        // Global function
+        
+        // Function to check the data in the form
+        function checkInput($data)
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            return $data;
+        }
         ?>
     </section>
 

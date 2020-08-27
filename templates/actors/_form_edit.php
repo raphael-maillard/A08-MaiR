@@ -167,6 +167,7 @@ if (!empty($_GET['id']))
         }
     }
 
+
     // Prepare request sql to show the informations in the form
     $statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.dob, actors.image, actors.created_at, actors_movies.role, movies.id as movie_id ,movies.name
                                     FROM actors
@@ -178,21 +179,28 @@ if (!empty($_GET['id']))
     $statement->execute(array($id));
     $item = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-	// Define the variables to complete the form
-	$last_name= $item[0]['last_name'];
-    $first_name= $item[0]['first_name'];
-	$dob= $item[0]['dob'];
-	$role= $item[0]['role'];
-	$image= $item[0]['image'];
-	$movie = [];
-	foreach($item as $item)
-	{
-		$movie_id[]= $item['movie_id'];
-		$movie[]= $item['name'];
-	}
+    // Reset the variable
+    $movie_id = [];
+
+    if($item && !isset($_POST['role']) && !isset($_POST['movie']))
+    {
+        // Define the variables to complete the form
+        $last_name= $item[0]['last_name'];
+        $first_name= $item[0]['first_name'];
+        $dob= $item[0]['dob'];
+        $role= $item[0]['role'];
+        $image= $item[0]['image'];
+
+        // Insert the tables in the variables array 
+        foreach($item as $item)
+        {
+            $movie_id[]= $item['movie_id'];
+            $movie[]= $item['name'];
+        }
+    }
 
     // Condition if the actor haven't role in the movies
-    if($item==false)
+    else
     {
 		$statement = $connect->prepare('SELECT actors.id, actors.last_name, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image, created_at
 										FROM actors
@@ -208,14 +216,7 @@ if (!empty($_GET['id']))
 		$image= $item['image'];
     }
 }
-// Function to check the data in the form
-function checkInput($data)
-{
-	$data = trim($data);
-	$data = stripslashes($data);
-	$data = htmlspecialchars($data);
-	return $data;
-}
+
 
 ?>
 
@@ -258,12 +259,11 @@ function checkInput($data)
 						// compare the the id of the movies with the id actors_movies to print select or not
 						if(in_array($row['id'],$movie_id))
 						{
-							print('<option value="" selected>' . $row['name'] . '</option>');
+							echo '<option value="" selected>' . $row['name'] . '</option>';
 						}
 						else
 						{
-							print('<option value="' . $row['id'] . '">' . $row['name'] . '</option>');
-							$result=array_key_exists($row['name'],$movie);
+							echo '<option value="' . $row['id'] . '">' . $row['name'] . '</option>';
 						}
 					}
                     ?>

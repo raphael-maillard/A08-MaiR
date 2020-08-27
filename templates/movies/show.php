@@ -21,15 +21,6 @@ $item['release_date'] = date("d-m-Y", strtotime($item['release_date']));
 $item['created_at'] = date("d-m-Y", strtotime($item['created_at']));
 $item['modified_at'] = date("d-m-Y", strtotime($item['modified_at']));
 
-// function to check
-function checkInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
 ?>
 <div class="container admin">
     <div class="row">

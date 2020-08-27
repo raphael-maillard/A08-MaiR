@@ -109,15 +109,6 @@ if (!empty($_POST)) {
     }
 }
 
-// Function to check the data in the form
-function checkInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
 ?>
 
 <div class="container">

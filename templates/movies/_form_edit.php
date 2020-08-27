@@ -124,7 +124,7 @@ if (!empty($_GET['id'])) {
         }
     }
     //make request and execute with the good id, to keep the information and inject in the form
-    $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase
+    $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase, movies.id_phase
                                     FROM phases 
                                     JOIN movies ON phases.id = movies.id_phase
                                     WHERE movies.id= ?');
@@ -138,6 +138,7 @@ if (!empty($_GET['id'])) {
     $duration = $item['duration'];
     $date = $item['release_date'];
     $phase = $item['phase'];
+    $idphase=$item['id_phase'];
     $image = $item['image'];
 
     // Set the local 
@@ -151,14 +152,7 @@ if (!empty($_GET['id'])) {
           </div>';
     die();
 }
-// Init function checkInput to verify the data
-function checkInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
+
 
 ?>
 
@@ -197,10 +191,18 @@ function checkInput($data)
                 <label for="category">Phase:</label>
                 <select class="custom-select" name="phase" id="category">
                     <?php
-                    foreach ($connect->query('SELECT * FROM phases') as $row) {
-                        print('<option value="' . $row['id'] . '">' . $row['phase'] . '</option>');
+                    foreach ($connect->query('SELECT * FROM phases') as $row) 
+                    {
+                        if($row['id']==$idphase)
+                        {
+                            echo '<option value="' . $row['id'].'"selected>' . $row['phase'] . '</option>';
+                        }
+                        else
+                        {
+                            echo '<option value="' . $row['id'].'">' . $row['phase'] . '</option>';
+                        }
                     }
-                    ?>
+                    ?>                
                 </select>
             </div>
             <!-- Create a new select  -->

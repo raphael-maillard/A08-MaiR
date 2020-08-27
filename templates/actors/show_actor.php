@@ -44,14 +44,6 @@ $movie_name = $connect->prepare('SELECT movies.name
 $movie_name->execute(array($id));
 $movie_name = $movie_name->fetchAll();
 
-// function to check
-function checkInput($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 
 ?>
 <div class="container">
