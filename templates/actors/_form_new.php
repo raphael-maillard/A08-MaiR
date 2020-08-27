@@ -75,8 +75,18 @@ if (!empty($_POST) ) {
             $isUploadSuccess = false;
         }
         // If not problem check if the move is okay
+
         if ($isUploadSuccess) 
         {
+            // Check if the folder "Upload" exist
+            if (!file_exists("./uploads")){
+                mkdir("./uploads");
+            }
+
+            // Check if the folder "actors" exist
+            if (!file_exists("./uploads/actors")){
+                mkdir("./uploads/actors");
+            }
             if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
             {
                 $imageError = '<div class="alert alert-warning" role="alert">

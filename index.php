@@ -43,13 +43,26 @@
             $id = ($_POST['id-del']);
             // Prepare the request
             $delete = $connect->prepare("DELETE FROM movies WHERE id= ?");
+            $nameImage = $connect->prepare("SELECT image FROM movies WHERE id= ?");
             // Take the ID inject in request and delete the line
+            $nameImage->execute(array($id));
+            $nameImage = $nameImage->fetch();
             $delete->execute(array($id));
-            // return $delete->execute->fetchAll();
-            // Message the delete agree
-            print('<div class="alert alert-success" role="alert">');
-            print('<h2 class="alert-heading text-center">Le film est effacé avec succès !</h2>');
-            print('</div>');
+            // Take the ID inject in request and delete the line
+            if(!empty($nameImage['image']))
+            {
+                $path="./uploads/".$nameImage['image']; 
+                $successImg = unlink($path);
+                            // Message the delete agree
+                print('<div class="alert alert-success" role="alert">');
+                print('<h2 class="alert-heading text-center">Le film est effacé avec succès !</h2>');
+                print('</div>');
+            }
+            else
+            {
+                echo "L'affiche du film n'a pas pu être effacé.";
+            }
+
         }
 
         // For edit the movie you are redirect
@@ -85,7 +98,6 @@
             if(!empty($nameImage['image']))
             {
                 $path="./uploads/actors/".$nameImage['image']; 
-                unlink($path);
                 $successImg = unlink($path);
             }
             $delete->execute(array($id));
@@ -95,7 +107,7 @@
             if($success && $successImg)
             {
                 print('<div class="alert alert-success" role="alert">');
-                print('<h2 class="alert-heading text-center">L\'acteur est éffacé! Correctement</h2>');
+                print('<h2 class="alert-heading text-center">L\'acteur est effacé! Correctement</h2>');
                 print('</div>');
             }
         }

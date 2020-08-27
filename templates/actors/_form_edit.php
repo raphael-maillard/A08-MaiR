@@ -92,15 +92,6 @@ if (!empty($_GET['id']))
                 $isUploadSuccess = false;
             }
 
-            // Check if the folder "Upload" exist
-            if (!file_exists("./uploaded")){
-                mkdir("./uploaded");
-            }
-
-            // Check if the folder "actors" exist
-            if (!file_exists("./uploaded/actors")){
-                mkdir("./uploaded/actors");
-            }
             
             // If not problem check if the move is okay
             if ($isUploadSuccess) 
