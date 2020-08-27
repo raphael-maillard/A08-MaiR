@@ -75,10 +75,10 @@ if(!empty($_POST['search']))
 
     // innit variable with  the request SQL, with the variable keyword keep on the top and order by newest
     $searchActors = " SELECT actors.id, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image
-                FROM actors
-                WHERE actors.first_name LIKE \"%$keyword%\"
-                OR actors.last_name LIKE \"%$keyword%\"
-                ORDER BY actors.last_name ASC";
+                      FROM actors
+                      WHERE actors.first_name LIKE \"%$keyword%\"
+                      OR actors.last_name LIKE \"%$keyword%\"
+                      ORDER BY actors.last_name ASC";
     // prepare the request
     $result = $connect->prepare($searchActors);
     // execute the requestion
