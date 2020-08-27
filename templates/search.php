@@ -77,6 +77,7 @@ if(!empty($_POST['search']))
     $searchActors = " SELECT actors.id, actors.first_name, actors.image, actors.last_name, actors.dob, actors.image
                 FROM actors
                 WHERE actors.first_name LIKE \"%$keyword%\"
+                OR actors.last_name LIKE \"%$keyword%\"
                 ORDER BY actors.last_name ASC";
     // prepare the request
     $result = $connect->prepare($searchActors);
