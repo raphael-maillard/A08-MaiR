@@ -285,6 +285,7 @@ if (!empty($_GET['id']))
 					Modifier</button>
 				<a class="btn btn-primary" href="index.php?show-actor&id=<?php echo $id ?>"> <span class=" glyphicon glyphicon-arrow-left"></span>
 					Retour</a>
+                    <br><br>
 			</div>    
 		</form>
     </div>
