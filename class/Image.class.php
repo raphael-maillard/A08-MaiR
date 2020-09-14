@@ -33,7 +33,7 @@ class Image
                 $this->setImage($isUploadSuccess = false);
             }
 
-            if ($_FILES['image']["size"] > 30000) 
+            if ($_FILES['image']["size"] > 50000) 
 			{
                 return $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>

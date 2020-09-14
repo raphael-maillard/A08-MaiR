@@ -13,7 +13,13 @@ if (!empty($_POST) ) {
     $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
     if(isset($_POST['movie_name'])) $movie = $_POST['movie_name'];   
     $isSuccess          = true;
-    $isUploadSuccess    = false;
+    // $isUploadSuccess    = false;
+
+    $imageObject = new Image();
+    $imageObject->checkImage($_FILES);
+
+    $imageError = $imageObject->checkImage($_FILES);
+    $isUploadSuccess = $imageObject->getImage();
 
     if (empty($first_name)) {
         $first_Name_Error = '<div class="alert alert-warning" role="alert">
@@ -41,69 +47,69 @@ if (!empty($_POST) ) {
         $isSuccess = false;
     }
 
-    if (empty($image)) {
-        $imageError = '<div class="alert alert-warning" role="alert">
-                      <p class="alert-heading">Insérer une image</p>
-                      </div>';
-        $isSuccess = false;
-    }    
-    else {
-        // Adapt the parameter
-        $isUploadSuccess = true;
+    // if (empty($image)) {
+    //     $imageError = '<div class="alert alert-warning" role="alert">
+    //                   <p class="alert-heading">Insérer une image</p>
+    //                   </div>';
+    //     $isSuccess = false;
+    // }    
+    // else {
+    //     // Adapt the parameter
+    //     $isUploadSuccess = true;
 
-        // Check the extension file
-        if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
-            $imageError = '<div class="alert alert-warning" role="alert">
-                          <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
-                          </div>';
-            $isUploadSuccess = false;
-        }
+    //     // Check the extension file
+    //     if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
+    //         $imageError = '<div class="alert alert-warning" role="alert">
+    //                       <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
+    //                       </div>';
+    //         $isUploadSuccess = false;
+    //     }
 
-        // Check if the file don't exist
-        if (file_exists($imagePath)) {
-            $imageError = '<div class="alert alert-warning" role="alert">
-                          <p class="alert-heading">Le fichier existe déjà</p>
-                          </div>';
-            $isUploadSuccess = false;
-        }
+    //     // Check if the file don't exist
+    //     if (file_exists($imagePath)) {
+    //         $imageError = '<div class="alert alert-warning" role="alert">
+    //                       <p class="alert-heading">Le fichier existe déjà</p>
+    //                       </div>';
+    //         $isUploadSuccess = false;
+    //     }
 
-        // Check if the file respect the maximum size
-        if ($_FILES['image']["size"] > 500000) {
-            $imageError = '<div class="alert alert-warning" role="alert">
-                           <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
-                           </div>';
-            $isUploadSuccess = false;
-        }
-        // If not problem check if the move is okay
+    //     // Check if the file respect the maximum size
+    //     if ($_FILES['image']["size"] > 500000) {
+    //         $imageError = '<div class="alert alert-warning" role="alert">
+    //                        <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
+    //                        </div>';
+    //         $isUploadSuccess = false;
+    //     }
+    //     // If not problem check if the move is okay
 
-        if ($isUploadSuccess) 
-        {
-            // Check if the folder "Upload" exist
-            if (!file_exists("./uploads")){
-                mkdir("./uploads");
-            }
+    //     if ($isUploadSuccess) 
+    //     {
+    //         // Check if the folder "Upload" exist
+    //         if (!file_exists("./uploads")){
+    //             mkdir("./uploads");
+    //         }
 
-            // Check if the folder "actors" exist
-            if (!file_exists("./uploads/actors")){
-                mkdir("./uploads/actors");
-            }
-            if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
-            {
-                $imageError = '<div class="alert alert-warning" role="alert">
-                            <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
-                            </div>';
-                $isUploadSuccess = false;
-            }
-        }
-    }
+    //         // Check if the folder "actors" exist
+    //         if (!file_exists("./uploads/actors")){
+    //             mkdir("./uploads/actors");
+    //         }
+    //         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
+    //         {
+    //             $imageError = '<div class="alert alert-warning" role="alert">
+    //                         <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
+    //                         </div>';
+    //             $isUploadSuccess = false;
+    //         }
+    //     }
+    // }
 
     // keep last id and add+1 // next id to use bdd
 
     if ($isSuccess == true && $isUploadSuccess == true) 
     {
-    $request = $connect->prepare("INSERT INTO `actors` (`last_name`, `first_name`, `dob`, `created_at`, image) 
+        $request = $connect->prepare("INSERT INTO `actors` (`last_name`, `first_name`, `dob`, `created_at`, image) 
                             VALUES ( :last_name, :first_name, :date , CURRENT_TIMESTAMP, :image)"); 
-    $sql = $request->execute(array(
+        $sql = $request->execute(array(
                             "last_name" => $last_name,
                             "first_name" => $first_name,
                             "date" => $dob,
@@ -136,7 +142,7 @@ if (!empty($_POST) ) {
         else
         {
             print('<div class="alert alert-danger" role="alert">');
-            print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
+            print('    <h4 class="alert-heading text-center">Un problème est survenue, l\'acteur n\'est pas enregistré !</h4>');
             print('</div>');
             echo $imageError;
         }

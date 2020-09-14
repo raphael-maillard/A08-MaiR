@@ -23,9 +23,11 @@ if (!empty($_GET['id'])) {
         $isSuccess          = true;
         // $isUploadSuccess    = false;
 
-        $image = new Image();
-        $image->checkImage($_FILES);
-        var_dump($image);
+        $imageObject = new Image();
+        $imageObject->checkImage($_FILES);
+
+        $imageError = $imageObject->checkImage($_FILES);
+        $isUploadSuccess = $imageObject->getImage();
 
         // adapt the code error
         if (empty($name)) {

@@ -20,7 +20,6 @@ if (!empty($_GET['id']))
         
         $imageObject = new Image();
         $imageObject->checkImage($_FILES);
-
         $imageError = $imageObject->checkImage($_FILES);
         $isUploadSuccess = $imageObject->getImage();
         
