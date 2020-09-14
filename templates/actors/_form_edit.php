@@ -14,14 +14,15 @@ if (!empty($_GET['id']))
         $last_name          = checkInput($_POST['last_name']);
         $dob                = checkInput($_POST['dob']); 
         $role               = checkInput($_POST['role']);
-        // $image              = checkInput($_FILES['image']['name']);
-        // $imagePath          = './uploads/actors/' . basename($image);
-        // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
-        $image = new Image();
-        $image->checkImage($_FILES);
+        $image              = checkInput($_FILES['image']['name']);
+        $imagePath          = './uploads/actors/' . basename($image);
+        $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+        
+        $imageObject = new Image();
+        $imageObject->checkImage($_FILES);
 
-        var_dump($image->checkImage($_FILES));
-        var_dump($image->getImage());
+        $imageError = $imageObject->checkImage($_FILES);
+        $isUploadSuccess = $imageObject->getImage();
         
 		if(isset($_POST['movie_name']))
 		{
