@@ -14,15 +14,21 @@ if (!empty($_GET['id']))
         $last_name          = checkInput($_POST['last_name']);
         $dob                = checkInput($_POST['dob']); 
         $role               = checkInput($_POST['role']);
-        $image              = checkInput($_FILES['image']['name']);
-        $imagePath          = './uploads/actors/' . basename($image);
-        $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+        // $image              = checkInput($_FILES['image']['name']);
+        // $imagePath          = './uploads/actors/' . basename($image);
+        // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $image = new Image();
+        $image->checkImage($_FILES);
+
+        var_dump($image->checkImage($_FILES));
+        var_dump($image->getImage());
+        
 		if(isset($_POST['movie_name']))
 		{
 		$movie              = $_POST['movie_name'];
 		}
         $isSuccess          = true;
-        $isUploadSuccess    = false;
+        // $isUploadSuccess    = false;
 
 		if (empty($first_name)) 
 		{
@@ -54,57 +60,57 @@ if (!empty($_GET['id']))
             $isSuccess = false;
         }
 
-		if (empty($image)) 
-		{
-            $imageError = '<div class="alert alert-warning" role="alert">
-                        <p class="alert-heading">Insérer une image</p>
-                        </div>';
-        }    
-		else 
-		{
-            // Adapt the parameter
-            $isUploadSuccess = true;
+		// if (empty($image)) 
+		// {
+        //     $imageError = '<div class="alert alert-warning" role="alert">
+        //                 <p class="alert-heading">Insérer une image</p>
+        //                 </div>';
+        // }    
+		// else 
+		// {
+        //     // Adapt the parameter
+        //     $isUploadSuccess = true;
 
-            // Check the extension file
-			if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
-			{
-                $imageError = '<div class="alert alert-warning" role="alert">
-                            <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
-                            </div>';
-                $isUploadSuccess = false;
-            }
+        //     // Check the extension file
+		// 	if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") 
+		// 	{
+        //         $imageError = '<div class="alert alert-warning" role="alert">
+        //                     <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
+        //                     </div>';
+        //         $isUploadSuccess = false;
+        //     }
 
-            // Check if the file don't exist
-			if (file_exists($imagePath)) 
-			{
-                $imageError = '<div class="alert alert-warning" role="alert">
-                            <p class="alert-heading">Le fichier existe déjà</p>
-                            </div>';
-                $isUploadSuccess = false;
-            }
+        //     // Check if the file don't exist
+		// 	if (file_exists($imagePath)) 
+		// 	{
+        //         $imageError = '<div class="alert alert-warning" role="alert">
+        //                     <p class="alert-heading">Le fichier existe déjà</p>
+        //                     </div>';
+        //         $isUploadSuccess = false;
+        //     }
 
-            // Check if the file respect the maximum size
-			if ($_FILES['image']["size"] > 30000) 
-			{
-                $imageError = '<div class="alert alert-warning" role="alert">
-                            <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
-                            </div>';
-                $isUploadSuccess = false;
-            }
+        //     // Check if the file respect the maximum size
+		// 	if ($_FILES['image']["size"] > 30000) 
+		// 	{
+        //         $imageError = '<div class="alert alert-warning" role="alert">
+        //                     <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
+        //                     </div>';
+        //         $isUploadSuccess = false;
+        //     }
 
             
-            // If not problem check if the move is okay
-            if ($isUploadSuccess) 
-            {
-                if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
-                {
-                    $imageError = '<div class="alert alert-warning" role="alert">
-                                <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
-                                </div>';
-                    $isUploadSuccess = false;
-                }
-            }
-        }
+        //     // If not problem check if the move is okay
+        //     if ($isUploadSuccess) 
+        //     {
+        //         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
+        //         {
+        //             $imageError = '<div class="alert alert-warning" role="alert">
+        //                         <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
+        //                         </div>';
+        //             $isUploadSuccess = false;
+        //         }
+        //     }
+        // }
 
         // If don't change the image, recovery currently image
 		if (isset($_FILES['image']['name']) && $isUploadSuccess == false) 

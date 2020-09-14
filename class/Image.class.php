@@ -6,10 +6,6 @@ class Image
 
     private $_image ;
 
-    const VALID = "Valid";
-    const INVALID = "Invalid";
-
-
     public function checkImage(array $file)
     {
         if (isset($file) && !empty($file))
@@ -63,10 +59,19 @@ class Image
             $isUploadSuccess = false;
         }
 
-        return $isUploadSuccess;
+        $this->setImage($isUploadSuccess);
 
     }
 
+    public function getImage()
+    {
+        return $this->_image;
+    }
+
+    public function setImage($answer)
+    {
+        $this->_image = $answer;
+    }
 
 }
 ?>

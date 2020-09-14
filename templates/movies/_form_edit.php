@@ -27,8 +27,6 @@ if (!empty($_GET['id'])) {
         $image->checkImage($_FILES);
         var_dump($image);
 
-
-
         // adapt the code error
         if (empty($name)) {
             $nameError = '<div class="alert alert-warning" role="alert">
