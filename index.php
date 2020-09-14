@@ -19,27 +19,32 @@ require './class/Image.class.php'; ?>
         // Condition show the good page in function what you want
 
         // If you search a movies you arrived here
-        if (isset($_POST['search'])) {
+        if (isset($_POST['search'])) 
+        {
             include './templates/search.php';
         }
 
         // If you want add a movie the list
-        elseif (isset($_GET['add-movie'])) {
+        elseif (isset($_GET['add-movie'])) 
+        {
             include './templates/movies/_form_new.php';
         }
 
         // If you want check the list of movies
-        elseif (isset($_GET["list-movies"]) and !isset($_GET['id']) && !isset($_POST['id-del'])) {
+        elseif (isset($_GET["list-movies"]) and !isset($_GET['id']) && !isset($_POST['id-del'])) 
+        {
             include './templates/movies/list.php';
         }
 
         // If you click on the card movie, you arrived here
-        elseif (isset($_GET['id']) && isset($_GET['show-movie'])) {
+        elseif (isset($_GET['id']) && isset($_GET['show-movie'])) 
+        {
             include './templates/movies/show.php';
         }
 
         // If you want to delete the movie the traitement is here
-        elseif (isset($_GET['list-movies']) && isset($_POST['id-del'])) {
+        elseif (isset($_GET['list-movies']) && isset($_POST['id-del'])) 
+        {
             // recover the ID
             $id = ($_POST['id-del']);
             // Prepare the request
@@ -67,27 +72,32 @@ require './class/Image.class.php'; ?>
         }
 
         // For edit the movie you are redirect
-        elseif (isset($_GET['edit-movies']) && isset($_GET['id'])) {
+        elseif (isset($_GET['edit-movies']) && isset($_GET['id']))
+        {
             include './templates/movies/_form_edit.php';
         }
 
         // If you want check the list of actors
-        elseif (isset($_GET["list-actors"]) and !isset($_GET['id']) and !isset($_POST['id-del-actors'])) {
+        elseif (isset($_GET["list-actors"]) and !isset($_GET['id']) and !isset($_POST['id-del-actors'])) 
+        {
             include './templates/actors/list_actors.php';
         }
 
         // If you want add a movie the list
-        elseif (isset($_GET['add-actor'])) {
+        elseif (isset($_GET['add-actor'])) 
+        {
             include './templates/actors/_form_new.php';
         }
 
         // If you click on the card movie, you arrived here
-        elseif (isset($_GET['id']) && isset($_GET['show-actor'])) {
+        elseif (isset($_GET['id']) && isset($_GET['show-actor'])) 
+        {
             include './templates/actors/show_actor.php';
         }
 
         // If you want to delete the movie the traitement is here
-        elseif (isset($_GET['list-actors']) && isset($_POST['id-del-actors'])) {
+        elseif (isset($_GET['list-actors']) && isset($_POST['id-del-actors'])) 
+        {
             // recover the ID
             $id = ($_POST['id-del-actors']);
             // Prepare the request
@@ -113,13 +123,15 @@ require './class/Image.class.php'; ?>
             }
         }
 
-        elseif (isset($_GET['edit-actors']) && isset($_GET['id'])) {
+        elseif (isset($_GET['edit-actors']) && isset($_GET['id'])) 
+        {
             include './templates/actors/_form_edit.php';
         }
         
 
         // Else show the home page
-        else {
+        else 
+        {
             echo '<h1 class="h1 text-center">Bienvenue sur le listing des films Univers cinématographique Marvel </h1>';
         }
 
