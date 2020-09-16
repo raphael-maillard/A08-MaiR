@@ -75,35 +75,29 @@ class CheckdataMovie{
         $this->isSuccess = $issuccess;
     }
 
-    public function sendData()
+    public function hydrate ($tab)
     {
-        $this->getName();
-        $this->getDirector();
-        $this->getDuration();
-        $this->getDate();
-        $this->getPhase();
+        if (isset($tab['name']) && !empty($tab['name']))
+        $this->setName(checkInput($tab['name']));
+
+        if (isset($tab['director']) && !empty($tab['director']))
+        $this->setDirector(checkInput($tab['director']));
+
+        if (isset($tab['duration']) && !empty($tab['duration']))
+        $this->setDuration(checkInput($tab['duration']));
+
+        if (isset($tab['date']) && !empty($tab['date']))
+        $this->setDate(checkInput($tab['date']));
+
+        if (isset($tab['phase']) && !empty($tab['phase']))
+        $this->setPhase(checkInput($tab['phase']));
+
     }
 
 
-    public function checkInputHydrate($tab)
+    public function checkInput($tab)
     {
         $isSuccess = true;
-
-        if (isset($tab['name']) && !empty($tab['name']))
-            $this->setName(checkInput($tab['name']));
-
-        if (isset($tab['director']) && !empty($tab['director']))
-            $this->setDirector(checkInput($tab['director']));  
-
-        if (isset($tab['duration']) && !empty($tab['duration']))
-            $this->setDuration(checkInput($tab['duration']));
-
-        if (isset($tab['date']) && !empty($tab['date']))
-            $this->setDate(checkInput($tab['date']));
-
-        if (isset($tab['phase']) && !empty($tab['phase']))
-            $this->setPhase(checkInput($tab['phase']));
-
 
 
         if (empty($this->name)) 
@@ -148,7 +142,7 @@ class CheckdataMovie{
             $this->setIsSuccess($isSuccess);  
             return $errorData;
             die;
-        }   
+        }
     }
 
 }
