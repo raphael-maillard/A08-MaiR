@@ -12,7 +12,7 @@ class Image
 
     public function checkImage(array $file, $param = "movie")
     {
-        if (isset($file) && !empty($file))
+        if (isset($file))
         {
             $imageName = checkInput($file['image']['name']);
             
@@ -22,9 +22,7 @@ class Image
   
             $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
 
-            var_dump($imageExtension);
-
-            $this->setImage($isUploadSuccess = true);
+            $isUploadSuccess = true;
 
             $this->setNameImage($imageName);
 
@@ -33,7 +31,7 @@ class Image
                 return $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
                             </div>';
-                $this->setImage($isUploadSuccess = false);
+               $isUploadSuccess = false;
             }
 
             if (file_exists($imagePath)) 
@@ -41,7 +39,7 @@ class Image
                 return $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier existe déjà</p>
                             </div>';
-                $this->setImage($isUploadSuccess = false);
+                $isUploadSuccess = false;
             }
 
             if ($_FILES['image']["size"] > 50000) 
@@ -49,7 +47,7 @@ class Image
                 return $imageError = '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
                             </div>';
-                $this->setImage($isUploadSuccess = false);
+                $isUploadSuccess = false;
             }
 
             if ($isUploadSuccess) 
@@ -59,7 +57,7 @@ class Image
                     return $imageError = '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
                                 </div>';
-                    $this->setImage($isUploadSuccess = false);
+                    $isUploadSuccess = false;
                 }
             }
         }
@@ -68,8 +66,9 @@ class Image
             return $imageError = '<div class="alert alert-warning" role="alert">
             <p class="alert-heading">Insérer une image</p>
             </div>';
-            $this->setImage($isUploadSuccess = false);
+            $isUploadSuccess = false;
         }
+        $this->setImage($isUploadSuccess);
     }
 
 
@@ -147,8 +146,6 @@ class Image
     {
         $this->nameImage = $name;
     }
-
-
 
 }
 ?>

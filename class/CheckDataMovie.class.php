@@ -106,29 +106,37 @@ class CheckdataMovie{
 
 
 
-
         if (empty($this->name)) 
         {
-            $errorData =array( "nameError" => '<div class="alert alert-warning" role="alert">
+            $errorData =array("nameError" => '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez saisir un titre de film</p>
                             </div>');
             $isSuccess = false;
+            $this->setIsSuccess($isSuccess);  
+            return $errorData;
+            die;
         }
     
         if (empty($this->director)) 
         {
-            $errorData =array( "directorError" => '<div class="alert alert-warning" role="alert">
+            $errorData =array("directorError" => '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez remplir le champ ci dessus</p>
                                 </div>');
              $isSuccess = false;
+             $this->setIsSuccess($isSuccess);  
+             return $errorData;
+             die;
         }
     
         if (empty($this->duration)) 
         {
-            $errorData =array( "durationError" => '<div class="alert alert-warning" role="alert">
+            $errorData =array("durationError" => '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez saisir une durée</p>
                                 </div>');
             $isSuccess = false;
+            $this->setIsSuccess($isSuccess);  
+            return $errorData;
+            die;
         }
     
         if (empty($this->date)) 
@@ -137,11 +145,10 @@ class CheckdataMovie{
                             <p class="alert-heading">Entré la date de sortie du film</p>
                             </div>');
             $isSuccess = false;
-        }
-
-        $this->setIsSuccess($isSuccess);
-        if(isset($errorData)) return $errorData;
-        
+            $this->setIsSuccess($isSuccess);  
+            return $errorData;
+            die;
+        }   
     }
 
 }

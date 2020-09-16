@@ -8,21 +8,31 @@ Class Manager
     // Attributs
 
     private $_db;
+    private $ErrorData;
 
     public function __construct ($connect)
     {
         $this->setDb($connect);
     }
 
-
     public function getDb()
     {
         return $this->_db;
     }
 
+    public function getErrorData()
+    {
+        return $this->ErrorData;
+    }
+
     public function setDb (PDO $db)
     {
         $this->_db = $db;
+    }
+
+    public function setErrorData ($Error)
+    {
+        $this->ErrorData = $Error;
     }
 
     public function checkMovie($tab)
@@ -33,10 +43,11 @@ Class Manager
         
         $isUploadSuccess = $imageObject->getImage();
 
-
         $movieCheck = new CheckdataMovie;
 
-        $movieCheck->checkInputHydrate($tab);
+        $ErrorData = $movieCheck->checkInputHydrate($tab);
+
+        $this->setErrorData($ErrorData);
 
         $isSuccess = $movieCheck->getIsSuccess();
 
@@ -67,8 +78,9 @@ Class Manager
             print('<div class="alert alert-danger" role="alert">');
             print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
             print('</div>');
-            echo $imageError;
+            return $imageError;
         }
+
     }
 
 

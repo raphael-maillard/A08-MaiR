@@ -10,7 +10,14 @@ $nameError = $directorError = $durationError = $dateError = $imageError = $name 
 if (!empty($_POST)) {
 
     $manager = new Manager($connect);
-    $manager->checkMovie($_POST);
+    $imageError = $manager->checkMovie($_POST);
+    $error = $manager->getErrorData();
+
+    
+    $nameError = isset($error['nameError']) ? $nameError=$error['nameError']: "";
+    $directorError = isset($error['directorError']) ? $directorError=$error['directorError']: "";
+    $durationError = isset($error['durationError']) ? $durationError=$error['durationError']: "";
+    $dateError = isset($error['dateError']) ? $dateError=$error['dateError']: "";
 
 
     // $name               = checkInput($_POST['name']);
