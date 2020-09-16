@@ -1,56 +1,64 @@
 <!-- form new -->
 <?php
+require './class/Manager.class.php';
+require './settings/db.php';
 
 // Init variable to skip error
 $nameError = $directorError = $durationError = $dateError = $imageError = $name = $director = $duration = $date = "";
 
 // If post not empty start the processing
 if (!empty($_POST)) {
-    $name               = checkInput($_POST['name']);
-    $director           = checkInput($_POST['director']);
-    $duration           = checkInput($_POST['duration']);
-    $date               = checkInput($_POST['date']);
-    $phase              = checkInput($_POST['phase']);
-    $image              = checkInput($_FILES['image']['name']);
-    $imagePath          = './uploads/' . basename($image);
-    $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
-    $isSuccess          = true;
+
+    $manager = new Manager($connect);
+    $manager->checkMovie($_POST);
+
+
+    // $name               = checkInput($_POST['name']);
+    // $director           = checkInput($_POST['director']);
+    // $duration           = checkInput($_POST['duration']);
+    // $date               = checkInput($_POST['date']);
+    // $phase              = checkInput($_POST['phase']);
+    // $image              = checkInput($_FILES['image']['name']);
+    // $imagePath          = './uploads/' . basename($image);
+    // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+    // $isSuccess          = true;
     // $isUploadSuccess    = false;
 
-    $imageObject = new Image();
-    $imageObject->checkImage($_FILES);
+    // $imageObject = new Image();
 
-    $imageError = $imageObject->checkImage($_FILES);
-    $isUploadSuccess = $imageObject->getImage();
+    // $imageError = $imageObject->checkImageMovie($_FILES);
+    // $isUploadSuccess = $imageObject->getImage();
 
     // Start adapt the code error
-    if (empty($name)) {
-        $nameError = '<div class="alert alert-warning" role="alert">
-                     <p class="alert-heading">Veuillez saisir un titre de film</p>
-                     </div>';
-        $isSuccess = false;
-    }
+    // if (empty($name)) {
+    //     $nameError = '<div class="alert alert-warning" role="alert">
+    //                  <p class="alert-heading">Veuillez saisir un titre de film</p>
+    //                  </div>';
+    //     $isSuccess = false;
+    // }
 
-    if (empty($director)) {
-        $directorError = '<div class="alert alert-warning" role="alert">
-                         <p class="alert-heading">Veuillez remplir le champ</p>
-                         </div>';
-        $isSuccess = false;
-    }
+    // if (empty($director)) {
+    //     $directorError = '<div class="alert alert-warning" role="alert">
+    //                      <p class="alert-heading">Veuillez remplir le champ</p>
+    //                      </div>';
+    //     $isSuccess = false;
+    // }
 
-    if (empty($duration)) {
-        $durationError = '<div class="alert alert-warning" role="alert">
-                         <p class="alert-heading">Veuillez saisir une durée</p>
-                         </div>';
-        $isSuccess = false;
-    }
+    // if (empty($duration)) {
+    //     $durationError = '<div class="alert alert-warning" role="alert">
+    //                      <p class="alert-heading">Veuillez saisir une durée</p>
+    //                      </div>';
+    //     $isSuccess = false;
+    // }
 
-    if (empty($date)) {
-        $dateError = '<div class="alert alert-warning" role="alert">
-                     <p class="alert-heading">Entré la date de sortie du film</p>
-                     </div>';
-        $isSuccess = false;
-    }
+    // if (empty($date)) {
+    //     $dateError = '<div class="alert alert-warning" role="alert">
+    //                  <p class="alert-heading">Entré la date de sortie du film</p>
+    //                  </div>';
+    //     $isSuccess = false;
+    // }
+
+
 
     // if (empty($image)) {
     //     $imageError = '<div class="alert alert-warning" role="alert">
@@ -100,19 +108,19 @@ if (!empty($_POST)) {
     // Stop to adapt the code error
 
     // if all it's okay create the enter. If not show the message warning with the code error associate
-    if ($isSuccess == true && $isUploadSuccess == true) {
-        $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
-                                    VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
-        $query->execute(array($name, $date, $duration, $director, $image, $phase));
-        print('<div class="alert alert-success" role="alert">');
-        print('    <h4 class="alert-heading text-center">Film ajouté avec succès !</h4>');
-        print('</div>');
-    } else {
-        print('<div class="alert alert-danger" role="alert">');
-        print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
-        print('</div>');
-        echo $imageError;
-    }
+    // if ($isSuccess == true && $isUploadSuccess == true) {
+    //     $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
+    //                                 VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
+    //     $query->execute(array($name, $date, $duration, $director, $image, $phase));
+    //     print('<div class="alert alert-success" role="alert">');
+    //     print('    <h4 class="alert-heading text-center">Film ajouté avec succès !</h4>');
+    //     print('</div>');
+    // } else {
+    //     print('<div class="alert alert-danger" role="alert">');
+    //     print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
+    //     print('</div>');
+    //     echo $imageError;
+    // }
 }
 
 ?>

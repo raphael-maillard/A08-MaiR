@@ -1,7 +1,5 @@
 <!-- form edit -->
 <?php
-
-require './class/Image.class.php';
 // Init variable to escape the errors
 $nameError = $directorError = $durationError = $dateError = $imageError = "";
 
@@ -17,16 +15,15 @@ if (!empty($_GET['id'])) {
         $duration           = checkInput($_POST['duration']);
         $date               = checkInput($_POST['date']);
         $phase              = checkInput($_POST['phase']);
-        // $image              = checkInput($_FILES['image']['name']);
-        // $imagePath          = './uploads/' . basename($image);
-        // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+        $image              = checkInput($_FILES['image']['name']);
+        $imagePath          = './uploads/' . basename($image);
+        $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
         $isSuccess          = true;
         // $isUploadSuccess    = false;
 
         $imageObject = new Image();
-        $imageObject->checkImage($_FILES);
 
-        $imageError = $imageObject->checkImage($_FILES);
+        $imageError = $imageObject->checkImageMovie($_FILES);
         $isUploadSuccess = $imageObject->getImage();
 
         // adapt the code error

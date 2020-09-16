@@ -13,13 +13,13 @@ if (!empty($_POST) ) {
     $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
     if(isset($_POST['movie_name'])) $movie = $_POST['movie_name'];   
     $isSuccess          = true;
-    // $isUploadSuccess    = false;
+
 
     $imageObject = new Image();
-    $imageObject->checkImage($_FILES);
 
-    $imageError = $imageObject->checkImage($_FILES);
+    $imageError = $imageObject->checkImage($_FILES, "actors");
     $isUploadSuccess = $imageObject->getImage();
+
 
     if (empty($first_name)) {
         $first_Name_Error = '<div class="alert alert-warning" role="alert">
