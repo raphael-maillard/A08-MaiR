@@ -1,6 +1,4 @@
 <?php 
-require './class/CheckDataMovie.class.php';
-
 
 Class Manager 
 {
@@ -17,11 +15,13 @@ Class Manager
         $this->setDb($connect);
     }
 
+    // Getters to read the attibuts
     public function getDb()
     {
         return $this->_db;
     }
 
+    // Return the data errors
     public function getErrorData()
     {
         return $this->ErrorData;
@@ -32,6 +32,7 @@ Class Manager
         return $this->errorImage;
     }
 
+    // Setters to deine attributs
     public function setDb (PDO $db)
     {
         $this->_db = $db;
@@ -47,31 +48,75 @@ Class Manager
         $this->ErrorData = $Error;
     }
 
+    /**
+     * @param array with every data of one movie 
+     * And check indepedement the image and the data
+     * 
+     * if it's allright hydrate the object
+     * 
+     * @return Void
+     */
     public function checkMovie($tab)
-    {
-        $imageObject = new Image();
+    {    
+        $imageObject = new Image;
+
+        $movie = new Movie;
+
         $imageObject->checkImage($_FILES);
 
+        $ErrorData = $movie->checkInput($tab);
+        if(!empty($ErrorData))
+        {
+            $this->setErrorData($ErrorData);
+            return false;
+        }else 
+        {
+            return true;
+        }
+    }
+
+    /**
+     * @param keep object movie 
+     * excecute the requests 
+     * @return Void 
+     */
+    public function create (Movie $movie, Image $imageObject)
+    {
+        echo 'je suis dans le create';
+
         $isUploadSuccess = $imageObject->getImage();
+        var_dump($isUploadSuccess);
         $imageError = $imageObject->getImageError();
+        $imagePath = $imageObject->getImagePath();
 
+        $isSuccess = $movie->getIsSuccess();
 
-        $movieCheck = new CheckdataMovie;
-
-        $addMovie = $movieCheck->hydrate($tab);
-
-        $ErrorData = $movieCheck->checkInput($addMovie);
-
-
-        $isSuccess = $movieCheck->getIsSuccess();
+        if ($isUploadSuccess) 
+        {
+            echo ' je suis dans le upload';
+            if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
+            {
+                $imageError = '<div class="alert alert-warning" role="alert">
+                            <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
+                            </div>';
+                $isUploadSuccess = false;
+            }
+        }
+        else
+        {
+            $imageError = '<div class="alert alert-warning" role="alert">
+                           <p class="alert-heading">Insérer une image</p>
+                           </div>';
+            $isUploadSuccess = false;
+        }
 
         if ($isSuccess == true && $isUploadSuccess == true) 
         {
-            $name = $movieCheck->getName();
-            $date = $movieCheck->getDate();
-            $duration = $movieCheck->getDuration();
-            $director = $movieCheck->getDirector();
-            $phase = $movieCheck->getPhase();
+            $name = $movie->getName();
+            $date = $movie->getDate();
+            $duration = $movie->getDuration();
+            $director = $movie->getDirector();
+            $phase = $movie->getPhase();
             $image = $imageObject->getNameImage();     
             
 
@@ -88,20 +133,16 @@ Class Manager
             print('<div class="alert alert-success" role="alert">');
             print('    <h4 class="alert-heading text-center">Film ajouté avec succès !</h4>');
             print('</div>');
-        } else {
+        } else 
+        {
             print('<div class="alert alert-danger" role="alert">');
             print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
             print('</div>');
 
             $this->setErrorImage($imageError);
-            $this->setErrorData($ErrorData);
             return $imageError;
             
-        }
-
+        }      
     }
-
-
 }
-
 ?>

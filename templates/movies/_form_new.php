@@ -1,7 +1,5 @@
 <!-- form new -->
 <?php
-require './class/Manager.class.php';
-require './settings/db.php';
 
 // Init variable to skip error
 $nameError = $directorError = $durationError = $dateError = $imageError = $name = $director = $duration = $date = "";
@@ -10,11 +8,26 @@ $nameError = $directorError = $durationError = $dateError = $imageError = $name 
 if (!empty($_POST)) {
 
     $manager = new Manager($connect);
-    $manager->checkMovie($_POST);
+    $movie = new Movie;
+    $imageObject = new Image;
+    
+    $answer = $manager->checkMovie($_POST);
+
+    if ($answer)
+    {
+        $movie->hydrate($_POST);
+        $imageObject->checkImage
+        ($_FILES);
+        
+        if(!empty($movie))
+        {
+            $manager->create($movie, $imageObject);
+        }
+    }
 
 
     $imageError = null !== $manager->getErrorImage() ? $imageError = $manager->getErrorImage() :"" ;
-    $error = null !== $manager->getErrorData() ? $error = $manager->$manager->getErrorData() :"" ;
+    $error = null !== $manager->getErrorData() ? $error = $manager->getErrorData() :"" ;
 
     
     $nameError = isset($error['nameError']) ? $nameError=$error['nameError']: "";

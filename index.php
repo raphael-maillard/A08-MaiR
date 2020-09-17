@@ -1,6 +1,9 @@
 <!-- Call the parameters to ddatabase -->
-<?php include_once './settings/db.php';
-require './class/Image.class.php'; ?>
+<?php 
+include_once './settings/db.php';
+require './class/Image.class.php';
+require './class/Movie.class.php';
+require './class/Manager.class.php'; ?>
 
 <!DOCTYPE html>
 <html lang="en">

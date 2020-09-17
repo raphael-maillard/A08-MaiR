@@ -7,6 +7,8 @@ class Image
     private $image ;
     private $nameImage;
     private $imageError;
+    private $imagePath;
+    
     const PATHMOVIE = "uploads/";
     const PATHACTORS = "uploads/actors/";
 
@@ -26,6 +28,11 @@ class Image
         return $this->imageError;
     }
 
+    public function getImagePath()
+    {
+        return $this->imagePath;
+    }
+
     // Setters
     public function setImage($answer)
     {
@@ -41,12 +48,18 @@ class Image
     {
         $this->imageError = $error;
     }
+
+    public function setImagePath($path)
+    {
+        $this->imagePath = $path;
+    }
     
 
     public function checkImage(array $file, $param = "movie")
     {
-        if (isset($file))
+        if (isset($file) && $file['image']['error']!== 4)
         {
+            var_dump($file);
             $imageName = checkInput($file['image']['name']);
             
             $path = $param=="movie" ? Image::PATHMOVIE : Image::PATHACTORS;
@@ -83,26 +96,15 @@ class Image
                 $isUploadSuccess = false;
             }
 
-            if ($isUploadSuccess) 
-            {
-                if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) 
-                {
-                    $imageError = '<div class="alert alert-warning" role="alert">
-                                <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
-                                </div>';
-                    $isUploadSuccess = false;
-                }
-            }
+            if (isset($imagePath))$this->setImagePath($imagePath);  
+            
+            if (isset($isUploadSuccess))$this->setImage($isUploadSuccess);
+
+            if (isset($imageError)) $this->setImageError($imageError);        
         }
-        else
-        {
-            return $imageError = '<div class="alert alert-warning" role="alert">
-            <p class="alert-heading">Insérer une image</p>
-            </div>';
-            $isUploadSuccess = false;
-        }
-        $this->setImage($isUploadSuccess);
-        $this->setImageError($imageError);
+
+
+        
     }
 
 }

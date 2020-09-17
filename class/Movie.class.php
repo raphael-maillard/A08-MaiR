@@ -1,6 +1,7 @@
 <?php 
 
-class CheckdataMovie{
+
+class Movie{
 
     // Attributs for movies
 
@@ -12,6 +13,7 @@ class CheckdataMovie{
     private $isSuccess;
 
     // Getters
+
     public function getName()
     {
         return $this->name;
@@ -75,8 +77,14 @@ class CheckdataMovie{
         $this->isSuccess = $issuccess;
     }
 
+    /**
+     * @param array and hydrate the object 
+     * 
+     * @return Void
+     */
     public function hydrate ($tab)
     {
+
         if (isset($tab['name']) && !empty($tab['name']))
         $this->setName(checkInput($tab['name']));
 
@@ -94,55 +102,53 @@ class CheckdataMovie{
 
     }
 
-
+    /**
+     * @param recevied $array and check if it's not null and completed
+     * 
+     * Define a attribut to continue the process
+     * 
+     * @return message erro if problem is det
+     */
     public function checkInput($tab)
     {
         $isSuccess = true;
 
-
-        if (empty($this->name)) 
+        if (isset($tab['name']) && empty($tab['name']))
         {
             $errorData =array("nameError" => '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Veuillez saisir un titre de film</p>
                             </div>');
             $isSuccess = false;
-            $this->setIsSuccess($isSuccess);  
             return $errorData;
-            die;
         }
     
-        if (empty($this->director)) 
+        if (isset($tab['director']) && empty($tab['director'])) 
         {
             $errorData =array("directorError" => '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez remplir le champ ci dessus</p>
                                 </div>');
              $isSuccess = false;
-             $this->setIsSuccess($isSuccess);  
              return $errorData;
-             die;
         }
     
-        if (empty($this->duration)) 
+        if (isset($tab['duration']) && empty($tab['duration']))
         {
             $errorData =array("durationError" => '<div class="alert alert-warning" role="alert">
                                 <p class="alert-heading">Veuillez saisir une durée</p>
                                 </div>');
             $isSuccess = false;
-            $this->setIsSuccess($isSuccess);  
             return $errorData;
-            die;
         }
     
-        if (empty($this->date)) 
+        if (isset($tab['date']) && empty($tab['date']))
         {
             $errorData =array("dateError" => '<div class="alert alert-warning" role="alert">
                             <p class="alert-heading">Entré la date de sortie du film</p>
                             </div>');
             $isSuccess = false;
-            $this->setIsSuccess($isSuccess);  
             return $errorData;
-            die;
         }
+        $this->setIsSuccess($isSuccess);
     }
 
 }
