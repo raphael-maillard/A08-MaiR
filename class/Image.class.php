@@ -56,7 +56,7 @@ class Image
     
     public function checkImage(array $file, $param = "movie")
     {
-        if (isset($file) && $file['image']['error']!== 4)
+        if (isset($file) && $file['image']['error'] !== 4)
         {
             $imageName = checkInput($file['image']['name']);
             

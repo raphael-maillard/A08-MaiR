@@ -8,7 +8,7 @@ if (!empty($_GET['id'])) {
 
     $id = checkInput($_GET['id']);
 
-    $manager = new Manager ($connect);
+    $manager = new Manager($connect);
     $movie = new Movie();
 
     //Check if post doesn't empty and completed the variables
@@ -26,7 +26,7 @@ if (!empty($_GET['id'])) {
 
         $imageObject = new Image();
 
-        if(isset($_FILES))$imageError = $imageObject->checkImage($_FILES);
+        if (isset($_FILES)) $imageError = $imageObject->checkImage($_FILES);
         $isUploadSuccess = $imageObject->getImage();
 
         // adapt the code error
@@ -107,8 +107,7 @@ if (!empty($_GET['id'])) {
         //     $isUploadSuccess = true;
         // }
 
-        if ($isSuccess == true && $isUploadSuccess == true) 
-        {
+        if ($isSuccess == true && $isUploadSuccess == true) {
             //Init the variable 
             $query = $connect->prepare("UPDATE movies 
                                         SET name=:name, release_date=:date, duration=:duration, director=:director,image=:image, id_phase=:phase, modified_at=CURRENT_TIMESTAMP 
@@ -141,14 +140,14 @@ if (!empty($_GET['id'])) {
     // $item = $statement->fetch();
 
     $item = $manager->recoveryMovie($id);
-    
-    $returnCheck = $movie->checkInput($item);
 
-    if($returnCheck)
-    {
+    $returnCheck = $manager->checkMovie($item);
+
+    var_dump($item);
+
+    if ($returnCheck) {
         $movie->hydrate($item);
     }
-
 
 
     // redefine the variables
@@ -157,7 +156,7 @@ if (!empty($_GET['id'])) {
     $duration = $movie->getDuration();
     $date = $movie->getDate();
     $phase = $movie->getPhase();
-    $idphase=$item['id_phase'];
+    $idphase = $item['id_phase'];
     // $image = $movie->getImage();
 
     // Set the local 
@@ -210,18 +209,14 @@ if (!empty($_GET['id'])) {
                 <label for="category">Phase:</label>
                 <select class="custom-select" name="phase" id="category">
                     <?php
-                    foreach ($connect->query('SELECT * FROM phases') as $row) 
-                    {
-                        if($row['id']==$idphase)
-                        {
-                            echo '<option value="' . $row['id'].'"selected>' . $row['phase'] . '</option>';
-                        }
-                        else
-                        {
-                            echo '<option value="' . $row['id'].'">' . $row['phase'] . '</option>';
+                    foreach ($connect->query('SELECT * FROM phases') as $row) {
+                        if ($row['id'] == $idphase) {
+                            echo '<option value="' . $row['id'] . '"selected>' . $row['phase'] . '</option>';
+                        } else {
+                            echo '<option value="' . $row['id'] . '">' . $row['phase'] . '</option>';
                         }
                     }
-                    ?>                
+                    ?>
                 </select>
             </div>
             <!-- Create a new select  -->
@@ -244,16 +239,16 @@ if (!empty($_GET['id'])) {
             <br>
             <form class="pt-4">
                 <div class="form-group">
-                    <label>Nom:</label><?php echo ' ' . $item['name'] ?>
+                    <label>Nom:</label><?php echo ' ' . $name ?>
                 </div>
                 <div class="form-group">
-                    <label>Date de sortie:</label><?php echo ' ' . $item['release_date'] ?>
+                    <label>Réalisateur:</label><?php echo ' ' . $item['director'] ?>
                 </div>
                 <div class="form-group">
                     <label>Durée:</label><?php echo ' ' . $item['duration'] ?>
                 </div>
                 <div class="form-group">
-                    <label>Réalisateur:</label><?php echo ' ' . $item['director'] ?>
+                    <label>Date de sortie:</label><?php echo ' ' . $item['release_date'] ?>
                 </div>
                 <div class="form-group">
                     <label>Phase:</label><?php echo ' ' . $item['phase'] ?>

@@ -73,7 +73,7 @@ Class Manager
         $movie = new Movie;
 
 
-        $imageObject->checkImage($_FILES);
+        if(isset($_FILES))$imageObject->checkImage($_FILES);
 
         $ErrorData = $movie->checkInput($tab);
 
