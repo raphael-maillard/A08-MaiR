@@ -8,6 +8,9 @@ if (!empty($_GET['id'])) {
 
     $id = checkInput($_GET['id']);
 
+    $manager = new Manager ($connect);
+    $movie = new Movie();
+
     //Check if post doesn't empty and completed the variables
     if (!empty($_POST)) {
         $name               = checkInput($_POST['name']);
@@ -15,15 +18,15 @@ if (!empty($_GET['id'])) {
         $duration           = checkInput($_POST['duration']);
         $date               = checkInput($_POST['date']);
         $phase              = checkInput($_POST['phase']);
-        $image              = checkInput($_FILES['image']['name']);
-        $imagePath          = './uploads/' . basename($image);
-        $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
+        // $image              = checkInput($_FILES['image']['name']);
+        // $imagePath          = './uploads/' . basename($image);
+        // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
         $isSuccess          = true;
         // $isUploadSuccess    = false;
 
         $imageObject = new Image();
 
-        $imageError = $imageObject->checkImageMovie($_FILES);
+        if(isset($_FILES))$imageError = $imageObject->checkImage($_FILES);
         $isUploadSuccess = $imageObject->getImage();
 
         // adapt the code error
@@ -129,22 +132,33 @@ if (!empty($_GET['id'])) {
         }
     }
     //make request and execute with the good id, to keep the information and inject in the form
-    $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase, movies.id_phase
-                                    FROM phases 
-                                    JOIN movies ON phases.id = movies.id_phase
-                                    WHERE movies.id= ?');
+    // $statement = $connect->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase, movies.id_phase
+    //                                 FROM phases 
+    //                                 JOIN movies ON phases.id = movies.id_phase
+    //                                 WHERE movies.id= ?');
 
-    $statement->execute(array($id));
-    $item = $statement->fetch();
+    // $statement->execute(array($id));
+    // $item = $statement->fetch();
+
+    $item = $manager->recoveryMovie($id);
+    
+    $returnCheck = $movie->checkInput($item);
+
+    if($returnCheck)
+    {
+        $movie->hydrate($item);
+    }
+
+
 
     // redefine the variables
-    $name = $item['name'];
-    $director = $item['director'];
-    $duration = $item['duration'];
-    $date = $item['release_date'];
-    $phase = $item['phase'];
+    $name = $movie->getName();
+    $director = $movie->getDirector();
+    $duration = $movie->getDuration();
+    $date = $movie->getDate();
+    $phase = $movie->getPhase();
     $idphase=$item['id_phase'];
-    $image = $item['image'];
+    // $image = $movie->getImage();
 
     // Set the local 
     $item['release_date'] = date("d-m-Y", strtotime($item['release_date']));

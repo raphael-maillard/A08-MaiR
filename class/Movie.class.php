@@ -11,6 +11,7 @@ class Movie{
     private $date;
     private $phase;
     private $isSuccess;
+    private $id;
 
     // Getters
 
@@ -42,6 +43,11 @@ class Movie{
     public function getIsSuccess()
     {
         return $this->isSuccess;
+    }
+
+    public function getId()
+    {
+        return $this->id;
     }
 
 
@@ -77,6 +83,11 @@ class Movie{
         $this->isSuccess = $issuccess;
     }
 
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * @param array and hydrate the object 
      * 
@@ -84,6 +95,9 @@ class Movie{
      */
     public function hydrate ($tab)
     {
+
+        if (isset($tab['id']) && !empty($tab['id']))
+        $this->setId(checkInput($tab['id']));
 
         if (isset($tab['name']) && !empty($tab['name']))
         $this->setName(checkInput($tab['name']));
@@ -99,6 +113,10 @@ class Movie{
 
         if (isset($tab['phase']) && !empty($tab['phase']))
         $this->setPhase(checkInput($tab['phase']));
+
+        // if (isset($tab['image']) && !empty($tab['image']))
+        // $this->setImage(checkInput($tab['image']));
+
 
     }
 
@@ -153,6 +171,22 @@ class Movie{
             return $errorData;
         }
         $this->setIsSuccess($isSuccess);
+    }
+
+    public function select($id)
+    {
+        // $this->setId($id);
+
+        // $request = ->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase, movies.id_phase
+        //                                     FROM phases 
+        //                                     JOIN movies ON phases.id = movies.id_phase 
+        //                                     WHERE movies.id= :id');
+        // $request->bindValue("id", $this->getId(), PDO::PARAM_INT);
+        // $result = $request->execute();   
+        
+        // $result->fetch(PDO::FETCH_ASSOC);
+
+        // return $result;
     }
 
 }

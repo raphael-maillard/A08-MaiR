@@ -10,7 +10,7 @@ Class Manager
     private $isSuccess;
 
 
-    public function __construct ($connect)
+    public function __construct (PDO $connect)
     {
         $this->setDb($connect);
     }
@@ -121,8 +121,6 @@ Class Manager
                            </div>';
             $isUploadSuccess = false;
         }
-        var_dump($isSuccess);
-        var_dump($isUploadSuccess);
 
         if ($isSuccess == true && $isUploadSuccess == true) 
         {
@@ -157,6 +155,21 @@ Class Manager
             return $imageError;
             
         }      
+    }
+
+    public function recoveryMovie(int $id)
+    {
+
+        $request = $this->_db->prepare('SELECT movies.id, movies.name, movies.director, movies.release_date, movies.duration ,movies.image, phases.phase, movies.id_phase
+                                        FROM phases 
+                                        JOIN movies ON phases.id = movies.id_phase 
+                                        WHERE movies.id= :id');
+        $request->bindValue("id", $id, PDO::PARAM_INT);
+        $request->execute();
+        
+        $result = $request->fetch(PDO::FETCH_ASSOC);
+
+        return $result;
     }
 }
 ?>

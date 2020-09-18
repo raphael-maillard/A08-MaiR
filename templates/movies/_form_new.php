@@ -16,8 +16,7 @@ if (!empty($_POST)) {
     if ($answer)
     {
         $movie->hydrate($_POST);
-        $imageObject->checkImage
-        ($_FILES);
+        $imageObject->checkImage($_FILES);
         
         if(!empty($movie))
         {
