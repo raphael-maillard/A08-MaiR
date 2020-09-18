@@ -119,6 +119,7 @@ class Movie{
                             <p class="alert-heading">Veuillez saisir un titre de film</p>
                             </div>');
             $isSuccess = false;
+            $this->setIsSuccess($isSuccess);
             return $errorData;
         }
     
@@ -128,6 +129,7 @@ class Movie{
                                 <p class="alert-heading">Veuillez remplir le champ ci dessus</p>
                                 </div>');
              $isSuccess = false;
+            $this->setIsSuccess($isSuccess);
              return $errorData;
         }
     
@@ -137,6 +139,7 @@ class Movie{
                                 <p class="alert-heading">Veuillez saisir une durée</p>
                                 </div>');
             $isSuccess = false;
+            $this->setIsSuccess($isSuccess);
             return $errorData;
         }
     
@@ -146,6 +149,7 @@ class Movie{
                             <p class="alert-heading">Entré la date de sortie du film</p>
                             </div>');
             $isSuccess = false;
+            $this->setIsSuccess($isSuccess);
             return $errorData;
         }
         $this->setIsSuccess($isSuccess);

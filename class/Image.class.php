@@ -58,13 +58,11 @@ class Image
     {
         if (isset($file) && $file['image']['error']!== 4)
         {
-            var_dump($file);
             $imageName = checkInput($file['image']['name']);
             
             $path = $param=="movie" ? Image::PATHMOVIE : Image::PATHACTORS;
                          
             $imagePath = './'.$path.'' . basename($imageName);
-            var_dump($imagePath);
   
             $imageExtension = pathinfo($imagePath, PATHINFO_EXTENSION);
 
@@ -87,7 +85,6 @@ class Image
                             </div>';
                 $isUploadSuccess = false;
             }
-            var_dump($isUploadSuccess);
 
             if ($_FILES['image']["size"] > 50000) 
 			{
@@ -96,7 +93,6 @@ class Image
                             </div>';
                 $isUploadSuccess = false;
             }
-            var_dump($isUploadSuccess);
 
             if (isset($imagePath))$this->setImagePath($imagePath);  
             

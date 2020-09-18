@@ -2,12 +2,12 @@
 
 Class Manager 
 {
-
     // Attributs
 
     private $_db;
     private $ErrorData;
     private $errorImage;
+    private $isSuccess;
 
 
     public function __construct ($connect)
@@ -32,6 +32,11 @@ Class Manager
         return $this->errorImage;
     }
 
+    public function getIsSuccess()
+    {
+        return $this->isSuccess;
+    }
+
     // Setters to deine attributs
     public function setDb (PDO $db)
     {
@@ -48,6 +53,11 @@ Class Manager
         $this->ErrorData = $Error;
     }
 
+    public function setIsSuccess ($success)
+    {
+        $this->isSuccess = $success;
+    }
+
     /**
      * @param array with every data of one movie 
      * And check indepedement the image and the data
@@ -57,14 +67,18 @@ Class Manager
      * @return Void
      */
     public function checkMovie($tab)
-    {    
+    {
         $imageObject = new Image;
 
         $movie = new Movie;
 
+
         $imageObject->checkImage($_FILES);
 
         $ErrorData = $movie->checkInput($tab);
+
+        // Recovery check alright or not 
+        $this->setIsSuccess($movie->getIsSuccess());
         if(!empty($ErrorData))
         {
             $this->setErrorData($ErrorData);
@@ -85,11 +99,9 @@ Class Manager
         echo 'je suis dans le create';
 
         $isUploadSuccess = $imageObject->getImage();
-        var_dump($isUploadSuccess);
         $imageError = $imageObject->getImageError();
         $imagePath = $imageObject->getImagePath();
-
-        $isSuccess = $movie->getIsSuccess();
+        $isSuccess = $this->getIsSuccess();
 
         if ($isUploadSuccess) 
         {
@@ -109,6 +121,8 @@ Class Manager
                            </div>';
             $isUploadSuccess = false;
         }
+        var_dump($isSuccess);
+        var_dump($isUploadSuccess);
 
         if ($isSuccess == true && $isUploadSuccess == true) 
         {
