@@ -25,7 +25,6 @@ if (!empty($_POST)) {
         }
     }
 
-
     $imageError = null !== $manager->getErrorImage() ? $imageError = $manager->getErrorImage() :"" ;
     $error = null !== $manager->getErrorData() ? $error = $manager->getErrorData() :"" ;
 
@@ -35,115 +34,6 @@ if (!empty($_POST)) {
     $durationError = isset($error['durationError']) ? $durationError=$error['durationError']: "";
     $dateError = isset($error['dateError']) ? $dateError=$error['dateError']: "";
 
-
-    // $name               = checkInput($_POST['name']);
-    // $director           = checkInput($_POST['director']);
-    // $duration           = checkInput($_POST['duration']);
-    // $date               = checkInput($_POST['date']);
-    // $phase              = checkInput($_POST['phase']);
-    // $image              = checkInput($_FILES['image']['name']);
-    // $imagePath          = './uploads/' . basename($image);
-    // $imageExtension     = pathinfo($imagePath, PATHINFO_EXTENSION);
-    // $isSuccess          = true;
-    // $isUploadSuccess    = false;
-
-    // $imageObject = new Image();
-
-    // $imageError = $imageObject->checkImageMovie($_FILES);
-    // $isUploadSuccess = $imageObject->getImage();
-
-    // Start adapt the code error
-    // if (empty($name)) {
-    //     $nameError = '<div class="alert alert-warning" role="alert">
-    //                  <p class="alert-heading">Veuillez saisir un titre de film</p>
-    //                  </div>';
-    //     $isSuccess = false;
-    // }
-
-    // if (empty($director)) {
-    //     $directorError = '<div class="alert alert-warning" role="alert">
-    //                      <p class="alert-heading">Veuillez remplir le champ</p>
-    //                      </div>';
-    //     $isSuccess = false;
-    // }
-
-    // if (empty($duration)) {
-    //     $durationError = '<div class="alert alert-warning" role="alert">
-    //                      <p class="alert-heading">Veuillez saisir une durée</p>
-    //                      </div>';
-    //     $isSuccess = false;
-    // }
-
-    // if (empty($date)) {
-    //     $dateError = '<div class="alert alert-warning" role="alert">
-    //                  <p class="alert-heading">Entré la date de sortie du film</p>
-    //                  </div>';
-    //     $isSuccess = false;
-    // }
-
-
-
-    // if (empty($image)) {
-    //     $imageError = '<div class="alert alert-warning" role="alert">
-    //                   <p class="alert-heading">Insérer une image</p>
-    //                   </div>';
-    //     $isSuccess = false;
-    // }
-
-    // // process of the image if exist
-    // else {
-    //     // Adapt the parameter
-    //     $isUploadSuccess = true;
-
-    //     // Check the extension file
-    //     if ($imageExtension != "jpg" && $imageExtension != "pnj" && $imageExtension != "jpeg" && $imageExtension != "gif") {
-    //         $imageError = '<div class="alert alert-warning" role="alert">
-    //                       <p class="alert-heading">Les fichiers autorisés sont : .jpg, .pnj, .jpeg, .gif</p>
-    //                       </div>';
-    //         $isUploadSuccess = false;
-    //     }
-
-    //     // Check if the file don't exist
-    //     if (file_exists($imagePath)) {
-    //         $imageError = '<div class="alert alert-warning" role="alert">
-    //                       <p class="alert-heading">Le fichier existe déjà</p>
-    //                       </div>';
-    //         $isUploadSuccess = false;
-    //     }
-
-    //     // Check if the file respect the maximum size
-    //     if ($_FILES['image']["size"] > 500000) {
-    //         $imageError = '<div class="alert alert-warning" role="alert">
-    //                        <p class="alert-heading">Le fichier ne doit pas dépasser 500KB</p>
-    //                        </div>';
-    //         $isUploadSuccess = false;
-    //     }
-    //     // If not problem check if the move is okay
-    //     if ($isUploadSuccess) {
-    //         if (!move_uploaded_file($_FILES["image"]["tmp_name"], $imagePath)) {
-    //             $imageError = '<div class="alert alert-warning" role="alert">
-    //                         <p class="alert-heading">Il y a eu une erreur lors de l\'upload</p>
-    //                         </div>';
-    //             $isUploadSuccess = false;
-    //         }
-    //     }
-    // }
-    // Stop to adapt the code error
-
-    // if all it's okay create the enter. If not show the message warning with the code error associate
-    // if ($isSuccess == true && $isUploadSuccess == true) {
-    //     $query = $connect->prepare("INSERT INTO movies ( name, release_date, duration, director, image, id_phase, created_at) 
-    //                                 VALUES ( ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)");
-    //     $query->execute(array($name, $date, $duration, $director, $image, $phase));
-    //     print('<div class="alert alert-success" role="alert">');
-    //     print('    <h4 class="alert-heading text-center">Film ajouté avec succès !</h4>');
-    //     print('</div>');
-    // } else {
-    //     print('<div class="alert alert-danger" role="alert">');
-    //     print('    <h4 class="alert-heading text-center">Un problème est survenue, le film n\'est pas enregistré !</h4>');
-    //     print('</div>');
-    //     echo $imageError;
-    // }
 }
 
 ?>
